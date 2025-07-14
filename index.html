@@ -1976,10 +1976,88 @@
             });
         }
 
-        function editShift(employeeId, day) {
-            // This function is replaced by openShiftModal
-            openShiftModal(employeeId, day);
-        }
+  function openShiftModal(employeeId, day) {
+    const employee = employees.find(emp => emp.id === employeeId);
+    if (!employee) return;
+    
+    currentShiftData = { employeeId, day };
+    
+    // Populate modal
+    document.getElementById('shiftEmployee').value = employee.name;
+    document.getElementById('shiftDay').value = day.charAt(0).toUpperCase() + day.slice(1);
+    
+    const existingShift = schedules[employeeId][day];
+    if (existingShift) {
+        document.getElementById('shiftStartTime').value = existingShift.start;
+        document.getElementById('shiftEndTime').value = existingShift.end;
+        document.getElementById('shiftRole').value = existingShift.role || '';
+        selectShiftType(existingShift.type || 'morning');
+    } else {
+        // Clear form for new shift
+        document.getElementById('shiftStartTime').value = '';
+        document.getElementById('shiftEndTime').value = '';
+        document.getElementById('shiftRole').value = '';
+        selectShiftType('morning');
+    }
+    
+    document.getElementById('shiftModal').style.display = 'flex';
+}
+
+function selectShiftType(type) {
+    document.querySelectorAll('.shift-type-btn').forEach(btn => {
+        btn.classList.remove('active');
+        btn.setAttribute('aria-checked', 'false');
+    });
+    
+    const selectedBtn = document.querySelector(`.shift-type-btn[data-type="${type}"]`);
+    if (selectedBtn) {
+        selectedBtn.classList.add('active');
+        selectedBtn.setAttribute('aria-checked', 'true');
+    }
+}
+
+function saveShift() {
+    if (!currentShiftData) return;
+    
+    const startTime = document.getElementById('shiftStartTime').value;
+    const endTime = document.getElementById('shiftEndTime').value;
+    const role = document.getElementById('shiftRole').value;
+    const selectedType = document.querySelector('.shift-type-btn.active')?.dataset.type || 'morning';
+    
+    if (!startTime || !endTime) {
+        alert('Please enter both start and end times');
+        return;
+    }
+    
+    const { employeeId, day } = currentShiftData;
+    
+    schedules[employeeId][day] = {
+        start: startTime,
+        end: endTime,
+        role: role,
+        type: selectedType
+    };
+    
+    loadRosterGrid();
+    closeShiftModal();
+    alert('Shift saved successfully!');
+}
+
+function deleteShift() {
+    if (!currentShiftData) return;
+    
+    const { employeeId, day } = currentShiftData;
+    schedules[employeeId][day] = null;
+    
+    loadRosterGrid();
+    closeShiftModal();
+    alert('Shift deleted successfully!');
+}
+
+function closeShiftModal() {
+    document.getElementById('shiftModal').style.display = 'none';
+    currentShiftData = null;
+}
 
         function autoSchedule() {
             const confirmation = confirm('Auto-schedule all employees? This will create a basic schedule and clear any existing shifts.');
