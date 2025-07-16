@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kiss My Axe - Staff Management System</title>
+    <title>Kiss My Axe - Time Clock</title>
     <style>
         * {
             margin: 0;
@@ -15,54 +15,45 @@
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-        }
-
-        .login-container {
             display: flex;
             align-items: center;
             justify-content: center;
-            min-height: 100vh;
             padding: 20px;
         }
 
-        .login-card {
+        .app-container {
             background: white;
-            padding: 40px;
             border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
             width: 100%;
-            max-width: 400px;
+            max-width: 500px;
             text-align: center;
         }
 
-        .login-card h1 {
+        .logo {
             color: #2c3e50;
-            margin-bottom: 30px;
-            font-size: 2em;
+            font-size: 2.5em;
+            font-weight: 700;
+            margin-bottom: 10px;
         }
 
-        .user-type-toggle {
-            display: flex;
+        .subtitle {
+            color: #666;
             margin-bottom: 30px;
-            border: 2px solid #3498db;
-            border-radius: 25px;
-            overflow: hidden;
+            font-size: 1.1em;
         }
 
-        .user-type-btn {
-            flex: 1;
-            padding: 12px;
-            border: none;
-            background: white;
+        .current-time {
+            font-size: 3em;
+            font-weight: 300;
             color: #3498db;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-weight: 600;
+            margin-bottom: 30px;
+            font-family: 'Courier New', monospace;
         }
 
-        .user-type-btn.active {
-            background: #3498db;
-            color: white;
+        .login-section {
+            margin-bottom: 30px;
         }
 
         .form-group {
@@ -72,2540 +63,478 @@
 
         .form-group label {
             display: block;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
             font-weight: 600;
             color: #2c3e50;
         }
 
-        .form-group input, .form-group select {
+        .form-group select {
             width: 100%;
-            padding: 12px;
+            padding: 15px;
             border: 2px solid #ddd;
-            border-radius: 8px;
+            border-radius: 10px;
             font-size: 16px;
+            background: white;
             transition: border-color 0.3s;
         }
 
-        .form-group input:focus, .form-group select:focus {
+        .form-group select:focus {
             outline: none;
             border-color: #3498db;
         }
 
-        .login-btn {
-            width: 100%;
-            padding: 15px;
-            background: linear-gradient(135deg, #3498db, #2980b9);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .login-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        }
-
-        .main-container {
-            display: none;
-            min-height: 100vh;
-            background: #f5f6fa;
-        }
-
-        .header {
-            background: linear-gradient(135deg, #2c3e50, #3498db);
-            color: white;
-            padding: 20px;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logout-btn {
-            background: rgba(255,255,255,0.2);
-            color: white;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 0.9em;
-        }
-
-        .nav {
-            background: white;
-            display: flex;
-            overflow-x: auto;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-
-        .nav-btn {
-            flex: 1;
-            min-width: 120px;
-            padding: 15px 10px;
-            background: none;
-            border: none;
-            color: #666;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            border-bottom: 3px solid transparent;
-        }
-
-        .nav-btn.active {
-            color: #3498db;
-            border-bottom-color: #3498db;
-        }
-
-        .content {
-            padding: 20px;
-        }
-
-        .section {
-            display: none;
-        }
-
-        .section.active {
-            display: block;
-        }
-
-        .card {
-            background: white;
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-
-        .clock-display {
-            font-size: 3em;
-            font-weight: 300;
-            color: #2c3e50;
-            margin-bottom: 20px;
-            font-family: 'Courier New', monospace;
-            text-align: center;
-        }
-
-        .clock-actions {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            margin-top: 20px;
-        }
-
-        .clock-btn {
-            flex: 1;
-            max-width: 150px;
-            padding: 15px;
+        .btn {
+            padding: 15px 30px;
             border: none;
             border-radius: 25px;
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s;
+            margin: 10px;
+            min-width: 140px;
         }
 
-        .clock-in-btn {
-            background: linear-gradient(135deg, #27ae60, #2ecc71);
+        .btn-primary {
+            background: linear-gradient(135deg, #3498db, #2980b9);
             color: white;
         }
 
-        .clock-out-btn {
+        .btn-success {
+            background: linear-gradient(135deg, #27ae60, #229954);
+            color: white;
+        }
+
+        .btn-danger {
             background: linear-gradient(135deg, #e74c3c, #c0392b);
             color: white;
         }
 
-        .clock-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        .btn-secondary {
+            background: linear-gradient(135deg, #95a5a6, #7f8c8d);
+            color: white;
         }
 
-        .clock-btn:disabled {
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .btn:disabled {
             opacity: 0.5;
             cursor: not-allowed;
             transform: none;
         }
 
-        .status-info {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-top: 20px;
+        .clock-section {
+            display: none;
         }
 
-        .status-item {
-            text-align: center;
+        .status {
+            font-size: 1.3em;
+            margin: 20px 0;
+            font-weight: 600;
             padding: 15px;
-            background: #f8f9fa;
             border-radius: 10px;
         }
 
-        .status-item .label {
-            font-size: 0.9em;
-            color: #666;
-            margin-bottom: 5px;
+        .status.working {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
         }
 
-        .status-item .value {
-            font-size: 1.2em;
-            font-weight: 600;
-            color: #2c3e50;
+        .status.off {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
         }
 
-        .data-table {
-            background: white;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            margin-bottom: 20px;
-        }
-
-        .table-header {
-            background: #34495e;
-            color: white;
-            padding: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .data-table table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        .data-table th,
-        .data-table td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid #eee;
-        }
-
-        .data-table th {
-            background: #f8f9fa;
-            font-weight: 600;
-            color: #2c3e50;
-        }
-
-        .data-table tr:hover {
-            background: #f8f9fa;
-        }
-
-        .btn {
-            padding: 8px 15px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 0.9em;
-            margin: 2px;
-        }
-
-        .btn-primary {
-            background: #3498db;
-            color: white;
-        }
-
-        .btn-success {
-            background: #27ae60;
-            color: white;
-        }
-
-        .btn-danger {
-            background: #e74c3c;
-            color: white;
-        }
-
-        .btn-warning {
-            background: #f39c12;
-            color: white;
-        }
-
-        .btn:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
-        }
-
-        .text-success { color: #27ae60; }
-        .text-danger { color: #e74c3c; }
-        .text-center { text-align: center; }
-
-        /* Connecteam-style Roster Grid */
-        .roster-header {
-            background: white;
-            padding: 20px;
-            border-radius: 15px;
-            margin-bottom: 20px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-
-        .roster-controls {
-            display: flex;
+        .work-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
             gap: 20px;
-            align-items: end;
-            flex-wrap: wrap;
-            margin-bottom: 15px;
+            margin: 30px 0;
         }
 
-        .control-group {
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
+        .info-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 15px;
+            border-left: 4px solid #3498db;
         }
 
-        .control-group label {
-            font-weight: 600;
-            color: #2c3e50;
+        .info-card h3 {
+            color: #666;
             font-size: 0.9em;
-        }
-
-        .control-group select,
-        .control-group input {
-            padding: 8px 12px;
-            border: 2px solid #ddd;
-            border-radius: 8px;
-            font-size: 14px;
-            min-width: 150px;
-        }
-
-        .control-group select:focus,
-        .control-group input:focus {
-            outline: none;
-            border-color: #3498db;
-        }
-
-        .roster-actions {
-            display: flex;
-            gap: 10px;
-        }
-
-        .roster-container {
-            background: white;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-
-        .roster-grid {
-            display: grid;
-            grid-template-columns: 200px repeat(7, 1fr) 80px;
-            min-width: 900px;
-        }
-
-        .roster-header-row {
-            display: contents;
-        }
-
-        .staff-header {
-            background: #34495e;
-            color: white;
-            padding: 15px;
-            font-weight: 600;
-            border-right: 1px solid #2c3e50;
-        }
-
-        .day-header {
-            background: #34495e;
-            color: white;
-            padding: 15px 10px;
-            text-align: center;
-            font-weight: 600;
-            border-right: 1px solid #2c3e50;
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-        }
-
-        .day-header.weekend {
-            background: #2c3e50;
-        }
-
-        .date-label {
-            font-size: 0.8em;
-            opacity: 0.8;
-            font-weight: normal;
-        }
-
-        .total-header {
-            background: #34495e;
-            color: white;
-            padding: 15px 10px;
-            text-align: center;
+            margin-bottom: 10px;
             font-weight: 600;
         }
 
-        .staff-row {
-            display: contents;
-        }
-
-        .staff-name {
-            background: #f8f9fa;
-            padding: 15px;
-            border-right: 1px solid #ddd;
-            border-bottom: 1px solid #ddd;
-            font-weight: 600;
-            display: flex;
-            flex-direction: column;
-            gap: 3px;
-        }
-
-        .staff-title {
-            font-size: 0.8em;
-            color: #666;
-            font-weight: normal;
-        }
-
-        .shift-cell {
-            background: white;
-            border-right: 1px solid #ddd;
-            border-bottom: 1px solid #ddd;
-            min-height: 70px;
-            padding: 8px;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-            position: relative;
-        }
-
-        .shift-cell:hover {
-            background: #f0f8ff;
-        }
-
-        .shift-cell.weekend {
-            background: #fafafa;
-        }
-
-        .shift-cell.weekend:hover {
-            background: #f0f0f0;
-        }
-
-        .shift-block {
-            background: #e3f2fd;
-            border: 1px solid #3498db;
-            border-radius: 6px;
-            padding: 6px 8px;
-            font-size: 0.85em;
-            position: relative;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .shift-block:hover {
-            background: #bbdefb;
-            transform: translateY(-1px);
-        }
-
-        .shift-block.morning {
-            background: #e8f5e8;
-            border-color: #27ae60;
-            color: #1e7e34;
-        }
-
-        .shift-block.afternoon {
-            background: #fff3cd;
-            border-color: #f39c12;
-            color: #856404;
-        }
-
-        .shift-block.evening {
-            background: #f8d7da;
-            border-color: #e74c3c;
-            color: #721c24;
-        }
-
-        .shift-block.cover {
-            background: #e2e3e5;
-            border-color: #6c757d;
-            color: #495057;
-        }
-
-        .shift-time {
-            font-weight: 600;
-            line-height: 1.2;
-        }
-
-        .shift-role {
-            font-size: 0.75em;
-            opacity: 0.8;
-        }
-
-        .shift-duration {
-            font-size: 0.7em;
-            color: #666;
-            margin-top: 2px;
-        }
-
-        .total-cell {
-            background: #f8f9fa;
-            border-bottom: 1px solid #ddd;
-            padding: 15px 10px;
-            text-align: center;
+        .info-card .value {
+            font-size: 1.8em;
             font-weight: 600;
             color: #2c3e50;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
         }
 
-        .add-shift-btn {
-            background: transparent;
-            border: 2px dashed #ddd;
-            border-radius: 6px;
-            padding: 15px;
-            color: #999;
-            cursor: pointer;
-            transition: all 0.2s;
-            text-align: center;
-            font-size: 0.8em;
+        .action-buttons {
+            margin: 30px 0;
         }
 
-        .add-shift-btn:hover {
-            border-color: #3498db;
-            color: #3498db;
-            background: #f0f8ff;
-        }
-
-        .shift-modal {
-            display: none;
-            position: fixed;
-            z-index: 2000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.5);
-            align-items: center;
-            justify-content: center;
-        }
-
-        .shift-modal-content {
-            background: white;
-            padding: 30px;
+        .roster-link {
+            background: #f8f9fa;
+            padding: 20px;
             border-radius: 15px;
-            width: 90%;
-            max-width: 400px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            margin: 20px 0;
+            border: 1px solid #ddd;
         }
 
-        .shift-form-group {
+        .roster-link h3 {
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+
+        .roster-link p {
+            color: #666;
             margin-bottom: 15px;
         }
 
-        .shift-form-group label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: 600;
-            color: #2c3e50;
-        }
-
-        .shift-form-group input,
-        .shift-form-group select {
-            width: 100%;
-            padding: 10px;
-            border: 2px solid #ddd;
-            border-radius: 8px;
-            font-size: 14px;
-        }
-
-        .shift-form-group input:focus,
-        .shift-form-group select:focus {
-            outline: none;
-            border-color: #3498db;
-        }
-
-        .shift-type-buttons {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-top: 10px;
-        }
-
-        .shift-type-btn {
-            padding: 10px;
-            border: 2px solid #ddd;
-            border-radius: 8px;
-            background: white;
-            cursor: pointer;
-            text-align: center;
-            font-weight: 600;
-            transition: all 0.2s;
-        }
-
-        .shift-type-btn.active {
-            border-color: #3498db;
+        .welcome-message {
             background: #e3f2fd;
-            color: #1976d2;
-        }
-
-        .shift-type-btn.morning.active {
-            border-color: #27ae60;
-            background: #e8f5e8;
-            color: #1e7e34;
-        }
-
-        .shift-type-btn.afternoon.active {
-            border-color: #f39c12;
-            background: #fff3cd;
-            color: #856404;
-        }
-
-        .shift-type-btn.evening.active {
-            border-color: #e74c3c;
-            background: #f8d7da;
-            color: #721c24;
-        }
-
-        .shift-type-btn.cover.active {
-            border-color: #6c757d;
-            background: #e2e3e5;
-            color: #495057;
-        }
-
-        @media (max-width: 768px) {
-            .roster-grid {
-                grid-template-columns: 150px repeat(7, 100px) 60px;
-                font-size: 0.9em;
-            }
-
-            .roster-controls {
-                flex-direction: column;
-                align-items: stretch;
-            }
-
-            .control-group {
-                flex-direction: row;
-                align-items: center;
-                justify-content: space-between;
-            }
-
-            .control-group select,
-            .control-group input {
-                min-width: 120px;
-            }
-
-            .shift-cell {
-                min-height: 60px;
-                padding: 5px;
-            }
-
-            .shift-block {
-                padding: 4px 6px;
-                font-size: 0.75em;
-            }
-        }
-
-        .template-card {
-            background: #f8f9fa;
-            border: 1px solid #ddd;
-            border-radius: 10px;
             padding: 15px;
-            margin-bottom: 10px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .template-card:hover {
-            background: #e9ecef;
-            border-color: #3498db;
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.5);
-            align-items: center;
-            justify-content: center;
-        }
-
-        .modal-content {
-            background-color: white;
-            padding: 30px;
-            border-radius: 15px;
-            width: 90%;
-            max-width: 500px;
-            max-height: 80vh;
-            overflow-y: auto;
-        }
-
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            border-radius: 10px;
             margin-bottom: 20px;
+            color: #1976d2;
+            font-weight: 600;
         }
 
-        .close {
-            font-size: 24px;
-            cursor: pointer;
-            color: #999;
+        .location-info {
+            background: #f0f8ff;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            border-left: 4px solid #3498db;
         }
 
-        .close:hover {
-            color: #333;
+        .location-info h4 {
+            color: #2c3e50;
+            margin-bottom: 5px;
         }
 
-        @media (max-width: 768px) {
-            .status-info {
+        .location-info p {
+            color: #666;
+            margin: 0;
+        }
+
+        @media (max-width: 600px) {
+            .app-container {
+                padding: 30px 20px;
+            }
+            
+            .current-time {
+                font-size: 2.5em;
+            }
+            
+            .work-info {
                 grid-template-columns: 1fr;
+                gap: 15px;
             }
             
-            .clock-actions {
-                flex-direction: column;
-            }
-            
-            .clock-btn {
-                max-width: none;
-            }
-
-            .roster-controls {
-                flex-direction: column;
+            .btn {
+                width: 100%;
+                margin: 5px 0;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Login Interface -->
-    <div class="login-container" id="loginContainer">
-        <div class="login-card">
-            <h1>Kiss My Axe Staff Portal</h1>
-            <div class="user-type-toggle">
-                <button class="user-type-btn active" id="employeeBtn">Employee</button>
-                <button class="user-type-btn" id="managerBtn">Manager</button>
+    <div class="app-container">
+        <!-- Header -->
+        <div class="logo">Kiss My Axe</div>
+        <div class="subtitle">Staff Time Clock</div>
+        <div class="current-time" id="currentTime">00:00:00</div>
+
+        <!-- Login Section -->
+        <div class="login-section" id="loginSection">
+            <div class="form-group">
+                <label for="staffSelect">Select Your Name:</label>
+                <select id="staffSelect">
+                    <option value="">-- Choose Your Name --</option>
+                </select>
             </div>
-            
-            <form onsubmit="handleLogin(event)">
-                <div class="form-group">
-                    <label for="nameSelect">Select Your Name:</label>
-                    <select id="nameSelect" required>
-                        <option value="">-- Select Your Name --</option>
-                    </select>
-                </div>
-                
-                <div class="form-group" id="passwordGroup" style="display: none;">
-                    <label for="managerPass">Manager Password:</label>
-                    <input type="password" id="managerPass" placeholder="Enter manager password">
-                </div>
-                
-                <button type="submit" class="login-btn">Login</button>
-            </form>
+            <button class="btn btn-primary" onclick="login()">Start Shift</button>
         </div>
-    </div>
-
-    <!-- Employee Dashboard -->
-    <section id="employeeInterface" class="main-container" role="main" aria-hidden="true">
-        <header class="header">
-            <div>
-                <h2 id="employeeWelcome">Welcome</h2>
-                <div id="currentTime" aria-live="polite" aria-label="Current time"></div>
+https://docs.google.com/spreadsheets/d/1stQ8QdDw7jZxBAZ3qqTRa2CW9BKB2VcFJB2EEn2HSYQ/edit?usp=sharing
+        <!-- Clock Section -->
+        <div class="clock-section" id="clockSection">
+            <div class="welcome-message" id="welcomeMessage">
+                Welcome back!
             </div>
-            <button type="button" class="logout-btn" onclick="logout()" aria-label="Logout from employee dashboard">Logout</button>
-        </header>
 
-        <nav class="nav" role="tablist" aria-label="Employee navigation">
-            <button type="button" class="nav-btn" role="tab" aria-selected="true" aria-controls="employee-clock" id="clock-tab" onclick="showSection('employee', 'clock')">Clock In/Out</button>
-            <button type="button" class="nav-btn" role="tab" aria-selected="false" aria-controls="employee-roster" id="roster-tab" onclick="showSection('employee', 'roster')">My Roster</button>
-            <button type="button" class="nav-btn" role="tab" aria-selected="false" aria-controls="employee-hours" id="hours-tab" onclick="showSection('employee', 'hours')">My Hours</button>
-        </nav>
-
-        <main id="main-content" class="content">
-            <!-- Clock In/Out Section -->
-            <section id="employee-clock" class="section" role="tabpanel" aria-labelledby="clock-tab" aria-hidden="false">
-                <div class="card text-center">
-                    <div class="clock-display" id="clockDisplay" aria-live="polite" aria-label="Current time">00:00:00</div>
-                    <div>
-                        <span id="statusBadge" class="text-danger" aria-live="polite" aria-label="Work status">Off Duty</span>
-                    </div>
-                    <div class="clock-actions">
-                        <button type="button" class="clock-btn clock-in-btn" id="clockInBtn" onclick="clockIn()" aria-describedby="clockInHelp">
-                            Clock In
-                        </button>
-                        <button type="button" class="clock-btn clock-out-btn" id="clockOutBtn" onclick="clockOut()" disabled aria-describedby="clockOutHelp">
-                            Clock Out
-                        </button>
-                    </div>
-                    <div id="clockInHelp" class="sr-only">Click to record your start time</div>
-                    <div id="clockOutHelp" class="sr-only">Click to record your end time</div>
-                </div>
-
-                <div class="card">
-                    <h3>Today's Summary</h3>
-                    <div class="status-info">
-                        <div class="status-item">
-                            <div class="label">Hours Today</div>
-                            <div class="value" id="hoursToday" aria-live="polite">0.0h</div>
-                        </div>
-                        <div class="status-item">
-                            <div class="label">Weekly Hours</div>
-                            <div class="value" id="hoursWeekly" aria-live="polite">0.0h</div>
-                        </div>
-                        <div class="status-item">
-                            <div class="label">Clock In Time</div>
-                            <div class="value" id="clockInTime" aria-live="polite">--:--</div>
-                        </div>
-                        <div class="status-item">
-                            <div class="label">Estimated Pay</div>
-                            <div class="value" id="estimatedPay" aria-live="polite">$0.00</div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Employee Roster Section -->
-            <section id="employee-roster" class="section" role="tabpanel" aria-labelledby="roster-tab" aria-hidden="true">
-                <div class="card">
-                    <h3>My Weekly Roster</h3>
-                    <div id="employeeRosterGrid" role="region" aria-label="Employee weekly schedule">
-                        <!-- Employee's schedule will be loaded here -->
-                    </div>
-                </div>
-            </section>
-
-            <!-- Hours Section -->
-            <section id="employee-hours" class="section" role="tabpanel" aria-labelledby="hours-tab" aria-hidden="true">
-                <div class="card">
-                    <h3>Time Records</h3>
-                    <div id="timeRecords" role="region" aria-label="Time records and history">
-                        <p>Your time records and history will appear here.</p>
-                    </div>
-                </div>
-            </section>
-        </main>
-    </section>
-
-    <!-- Manager Dashboard -->
-    <section id="managerInterface" class="main-container" role="main" aria-hidden="true">
-        <header class="header">
-            <div>
-                <h2>Manager Dashboard</h2>
-                <div id="managerTime" aria-live="polite" aria-label="Current time"></div>
+            <div class="location-info" id="locationInfo">
+                <h4>Your Locations</h4>
+                <p>Loading...</p>
             </div>
-            <button type="button" class="logout-btn" onclick="logout()" aria-label="Logout from manager dashboard">Logout</button>
-        </header>
 
-        <nav class="nav" role="tablist" aria-label="Manager navigation">
-            <button type="button" class="nav-btn" role="tab" aria-selected="true" aria-controls="manager-dashboard" id="dashboard-tab" onclick="showSection('manager', 'dashboard')">Dashboard</button>
-            <button type="button" class="nav-btn" role="tab" aria-selected="false" aria-controls="manager-roster" id="manager-roster-tab" onclick="showSection('manager', 'roster')">Roster</button>
-            <button type="button" class="nav-btn" role="tab" aria-selected="false" aria-controls="manager-locations" id="locations-tab" onclick="showSection('manager', 'locations')">Locations</button>
-            <button type="button" class="nav-btn" role="tab" aria-selected="false" aria-controls="manager-staff" id="staff-tab" onclick="showSection('manager', 'staff')">Staff</button>
-            <button type="button" class="nav-btn" role="tab" aria-selected="false" aria-controls="manager-reports" id="reports-tab" onclick="showSection('manager', 'reports')">Reports</button>
-        </nav>
+            <div class="status off" id="workStatus">Not Currently Working</div>
 
-        <main class="content">
-            <!-- Dashboard Section -->
-            <section id="manager-dashboard" class="section" role="tabpanel" aria-labelledby="dashboard-tab" aria-hidden="false">
-                <div class="data-table">
-                    <div class="table-header">
-                        <h3>Today's Attendance</h3>
-                    </div>
-                    <div style="overflow-x: auto;">
-                        <table role="table" aria-label="Employee attendance for today">
-                            <thead>
-                                <tr>
-                                    <th scope="col">Employee</th>
-                                    <th scope="col">Title</th>
-                                    <th scope="col">Location</th>
-                                    <th scope="col">Status</th>
-                                    <th scope="col">Hours Today</th>
-                                    <th scope="col">Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody id="attendanceTable">
-                                <!-- Data will be loaded here -->
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </section>
+            <div class="action-buttons">
+                <button class="btn btn-success" id="clockInBtn" onclick="clockIn()">
+                    🕐 Clock In
+                </button>
+                <button class="btn btn-danger" id="clockOutBtn" onclick="clockOut()" disabled>
+                    🕐 Clock Out
+                </button>
+            </div>
 
-            <!-- Roster Management Section -->
-            <section id="manager-roster" class="section" role="tabpanel" aria-labelledby="manager-roster-tab" aria-hidden="true">
-                <!-- Roster Controls -->
-                <div class="roster-header">
-                    <h3>Roster Management</h3>
-                    <form class="roster-controls" onsubmit="event.preventDefault()">
-                        <div class="control-group">
-                            <label for="locationSelect">Location</label>
-                            <select id="locationSelect" name="location" onchange="loadRosterGrid()" aria-describedby="locationHelp">
-                                <option value="">All Locations</option>
-                                <option value="Alexandria">Alexandria</option>
-                                <option value="Brookvale">Brookvale</option>
-                                <option value="Blacktown">Blacktown</option>
-                            </select>
-                            <div id="locationHelp" class="sr-only">Filter roster by location</div>
-                        </div>
-                        <div class="control-group">
-                            <label for="weekSelect">Week Starting</label>
-                            <input type="date" id="weekSelect" name="week-start" onchange="loadRosterGrid()" aria-describedby="weekHelp">
-                            <div id="weekHelp" class="sr-only">Select the Monday of the week to manage</div>
-                        </div>
-                        <div class="control-group">
-                            <label>Quick Actions</label>
-                            <div class="roster-actions">
-                                <button type="button" class="btn btn-primary" onclick="showTemplateModal()" aria-describedby="templateHelp">Templates</button>
-                                <button type="button" class="btn btn-success" onclick="publishRoster()" aria-describedby="publishHelp">Publish</button>
-                            </div>
-                            <div id="templateHelp" class="sr-only">Apply pre-defined roster templates</div>
-                            <div id="publishHelp" class="sr-only">Notify all employees of their schedules</div>
-                        </div>
-                    </form>
-                    <div class="roster-actions">
-                        <button type="button" class="btn btn-warning" onclick="clearAllShifts()" aria-describedby="clearHelp">Clear All</button>
-                        <button type="button" class="btn btn-primary" onclick="autoSchedule()" aria-describedby="autoHelp">Auto Fill</button>
-                    </div>
-                    <div id="clearHelp" class="sr-only">Remove all shifts for the selected week</div>
-                    <div id="autoHelp" class="sr-only">Automatically generate basic schedule</div>
+            <div class="work-info">
+                <div class="info-card">
+                    <h3>Hours Today</h3>
+                    <div class="value" id="hoursToday">0.0h</div>
                 </div>
-
-                <!-- Roster Grid -->
-                <div class="roster-container">
-                    <div class="roster-grid" role="grid" aria-label="Weekly staff roster">
-                        <!-- Header Row -->
-                        <div class="roster-header-row">
-                            <div class="staff-header" role="columnheader">Staff</div>
-                            <div class="day-header" role="columnheader">
-                                <div>Monday</div>
-                                <div class="date-label" id="mondayDate"></div>
-                            </div>
-                            <div class="day-header" role="columnheader">
-                                <div>Tuesday</div>
-                                <div class="date-label" id="tuesdayDate"></div>
-                            </div>
-                            <div class="day-header" role="columnheader">
-                                <div>Wednesday</div>
-                                <div class="date-label" id="wednesdayDate"></div>
-                            </div>
-                            <div class="day-header" role="columnheader">
-                                <div>Thursday</div>
-                                <div class="date-label" id="thursdayDate"></div>
-                            </div>
-                            <div class="day-header" role="columnheader">
-                                <div>Friday</div>
-                                <div class="date-label" id="fridayDate"></div>
-                            </div>
-                            <div class="day-header weekend" role="columnheader">
-                                <div>Saturday</div>
-                                <div class="date-label" id="saturdayDate"></div>
-                            </div>
-                            <div class="day-header weekend" role="columnheader">
-                                <div>Sunday</div>
-                                <div class="date-label" id="sundayDate"></div>
-                            </div>
-                            <div class="total-header" role="columnheader">Total</div>
-                        </div>
-
-                        <!-- Staff Rows -->
-                        <div id="rosterGridBody" role="rowgroup">
-                            <!-- Staff roster rows will be generated here -->
-                        </div>
-                    </div>
+                <div class="info-card">
+                    <h3>Today's Pay</h3>
+                    <div class="value" id="todaysPay">$0.00</div>
                 </div>
-            </section>
-
-            <!-- Locations Section -->
-            <section id="manager-locations" class="section" role="tabpanel" aria-labelledby="locations-tab" aria-hidden="true">
-                <div class="data-table">
-                    <div class="table-header">
-                        <h3>Location Management</h3>
-                        <button type="button" class="btn btn-primary" onclick="showLocationModal()" aria-describedby="addLocationHelp">Add Location</button>
-                        <div id="addLocationHelp" class="sr-only">Create a new business location</div>
-                    </div>
-                    <div style="overflow-x: auto;">
-                        <table role="table" aria-label="Business locations">
-                            <thead>
-                                <tr>
-                                    <th scope="col">Location</th>
-                                    <th scope="col">Manager</th>
-                                    <th scope="col">Staff Count</th>
-                                    <th scope="col">Status</th>
-                                    <th scope="col">Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody id="locationsTable">
-                                <!-- Locations will be loaded here -->
-                            </tbody>
-                        </table>
-                    </div>
+                <div class="info-card">
+                    <h3>Clock In Time</h3>
+                    <div class="value" id="clockInTime">--:--</div>
                 </div>
-
-                <div class="card">
-                    <h3>Roster Templates</h3>
-                    <p>Create and manage reusable roster patterns for efficient scheduling.</p>
-                    <div style="margin-bottom: 15px;">
-                        <button type="button" class="btn btn-primary" onclick="createTemplate()" aria-describedby="createTemplateHelp">Create New Template</button>
-                        <div id="createTemplateHelp" class="sr-only">Create a new roster template from current schedule</div>
-                    </div>
-                    <div id="templatesContainer" role="region" aria-label="Available roster templates">
-                        <!-- Templates will be loaded here -->
-                    </div>
-                </div>
-            </section>
-
-            <!-- Staff Section -->
-            <section id="manager-staff" class="section" role="tabpanel" aria-labelledby="staff-tab" aria-hidden="true">
-                <div class="data-table">
-                    <div class="table-header">
-                        <h3>Staff Management</h3>
-                        <button type="button" class="btn btn-primary" onclick="showStaffModal()" aria-describedby="addStaffHelp">Add Staff</button>
-                        <div id="addStaffHelp" class="sr-only">Add a new staff member to the system</div>
-                    </div>
-                    <div style="overflow-x: auto;">
-                        <table role="table" aria-label="Staff members">
-                            <thead>
-                                <tr>
-                                    <th scope="col">Name</th>
-                                    <th scope="col">Email</th>
-                                    <th scope="col">Title</th>
-                                    <th scope="col">Rate</th>
-                                    <th scope="col">Locations</th>
-                                    <th scope="col">Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody id="staffTable">
-                                <!-- Data will be loaded here -->
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Reports Section -->
-            <section id="manager-reports" class="section" role="tabpanel" aria-labelledby="reports-tab" aria-hidden="true">
-                <div class="data-table">
-                    <div class="table-header">
-                        <h3>Payroll Report</h3>
-                        <button type="button" class="btn btn-success" onclick="generateReport()" aria-describedby="generateReportHelp">Generate Report</button>
-                        <div id="generateReportHelp" class="sr-only">Calculate payroll for all employees</div>
-                    </div>
-                    <div style="overflow-x: auto;">
-                        <table role="table" aria-label="Payroll information">
-                            <thead>
-                                <tr>
-                                    <th scope="col">Employee</th>
-                                    <th scope="col">Hours This Week</th>
-                                    <th scope="col">Hourly Rate</th>
-                                    <th scope="col">Gross Pay</th>
-                                    <th scope="col">Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody id="payrollTable">
-                                <!-- Data will be loaded here -->
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </section>
-        </main>
-    </section>
-
-    <!-- Modals -->
-    <!-- Staff Modal -->
-    <div id="staffModal" class="modal" role="dialog" aria-labelledby="staffModalTitle" aria-hidden="true">
-        <div class="modal-content">
-            <header class="modal-header">
-                <h3 id="staffModalTitle">Add/Edit Staff Member</h3>
-                <button type="button" class="close" onclick="closeModal('staffModal')" aria-label="Close dialog">&times;</button>
-            </header>
-            <div id="staffError" class="error-message" role="alert" aria-live="polite"></div>
-            <form id="staffForm" onsubmit="saveStaff(event)" novalidate>
-                <div class="form-group">
-                    <label for="staffName">Name: <span aria-hidden="true">*</span></label>
-                    <input type="text" id="staffName" name="staff-name" required aria-describedby="staffNameError">
-                    <div id="staffNameError" class="error-message"></div>
-                </div>
-                <div class="form-group">
-                    <label for="staffEmail">Email: <span aria-hidden="true">*</span></label>
-                    <input type="email" id="staffEmail" name="staff-email" required aria-describedby="staffEmailError">
-                    <div id="staffEmailError" class="error-message"></div>
-                </div>
-                <div class="form-group">
-                    <label for="staffTitle">Title: <span aria-hidden="true">*</span></label>
-                    <select id="staffTitle" name="staff-title" required aria-describedby="staffTitleError">
-                        <option value="Axe Coach">Axe Coach</option>
-                        <option value="Team Leader">Team Leader</option>
-                        <option value="Assistant Manager">Assistant Manager</option>
-                        <option value="Manager">Manager</option>
-                        <option value="Director">Director</option>
-                    </select>
-                    <div id="staffTitleError" class="error-message"></div>
-                </div>
-                <div class="form-group">
-                    <label for="staffRate">Hourly Rate ($): <span aria-hidden="true">*</span></label>
-                    <input type="number" id="staffRate" name="staff-rate" step="0.01" min="15" required aria-describedby="staffRateError staffRateHelp">
-                    <div id="staffRateHelp" class="sr-only">Enter hourly rate in dollars</div>
-                    <div id="staffRateError" class="error-message"></div>
-                </div>
-                <div class="form-group">
-                    <label for="staffLocations">Locations:</label>
-                    <input type="text" id="staffLocations" name="staff-locations" placeholder="e.g., Alexandria, Brookvale" aria-describedby="staffLocationsHelp">
-                    <div id="staffLocationsHelp" class="sr-only">Enter locations separated by commas</div>
-                </div>
-                <div style="display: flex; gap: 10px; margin-top: 20px;">
-                    <button type="submit" class="btn btn-primary" style="flex: 1;">Save Staff</button>
-                    <button type="button" class="btn btn-secondary" onclick="closeModal('staffModal')" style="flex: 1;">Cancel</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- Location Modal -->
-    <div id="locationModal" class="modal" role="dialog" aria-labelledby="locationModalTitle" aria-hidden="true">
-        <div class="modal-content">
-            <header class="modal-header">
-                <h3 id="locationModalTitle">Add Location</h3>
-                <button type="button" class="close" onclick="closeModal('locationModal')" aria-label="Close dialog">&times;</button>
-            </header>
-            <div id="locationError" class="error-message" role="alert" aria-live="polite"></div>
-            <form id="locationForm" onsubmit="saveLocation(event)" novalidate>
-                <div class="form-group">
-                    <label for="locationName">Location Name: <span aria-hidden="true">*</span></label>
-                    <input type="text" id="locationName" name="location-name" required aria-describedby="locationNameError">
-                    <div id="locationNameError" class="error-message"></div>
-                </div>
-                <div class="form-group">
-                    <label for="locationManager">Manager: <span aria-hidden="true">*</span></label>
-                    <input type="text" id="locationManager" name="location-manager" required aria-describedby="locationManagerError">
-                    <div id="locationManagerError" class="error-message"></div>
-                </div>
-                <div style="display: flex; gap: 10px; margin-top: 20px;">
-                    <button type="submit" class="btn btn-primary" style="flex: 1;">Save Location</button>
-                    <button type="button" class="btn btn-secondary" onclick="closeModal('locationModal')" style="flex: 1;">Cancel</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- Template Modal -->
-    <div id="templateModal" class="modal" role="dialog" aria-labelledby="templateModalTitle" aria-hidden="true">
-        <div class="modal-content">
-            <header class="modal-header">
-                <h3 id="templateModalTitle">Roster Templates</h3>
-                <button type="button" class="close" onclick="closeModal('templateModal')" aria-label="Close dialog">&times;</button>
-            </header>
-            <div id="templateList" role="group" aria-label="Available roster templates">
-                <div class="template-card" onclick="applyTemplate('standard')" role="button" tabindex="0" 
-                     onkeypress="if(event.key==='Enter') applyTemplate('standard')" aria-describedby="standardDesc">
-                    <h4>Standard Week</h4>
-                    <p id="standardDesc">Monday-Friday 9AM-5PM coverage</p>
-                </div>
-                <div class="template-card" onclick="applyTemplate('weekend')" role="button" tabindex="0" 
-                     onkeypress="if(event.key==='Enter') applyTemplate('weekend')" aria-describedby="weekendDesc">
-                    <h4>Weekend Rush</h4>
-                    <p id="weekendDesc">Extra coverage for weekends</p>
-                </div>
-                <div class="template-card" onclick="applyTemplate('holiday')" role="button" tabindex="0" 
-                     onkeypress="if(event.key==='Enter') applyTemplate('holiday')" aria-describedby="holidayDesc">
-                    <h4>Holiday Schedule</h4>
-                    <p id="holidayDesc">Extended hours for holidays</p>
+                <div class="info-card">
+                    <h3>Hourly Rate</h3>
+                    <div class="value" id="hourlyRate">$0.00</div>
                 </div>
             </div>
-        </div>
-    </div>
 
-    <!-- Shift Edit Modal -->
-    <div id="shiftModal" class="modal" role="dialog" aria-labelledby="shiftModalTitle" aria-hidden="true">
-        <div class="modal-content">
-            <header class="modal-header">
-                <h3 id="shiftModalTitle">Edit Shift</h3>
-                <button type="button" class="close" onclick="closeShiftModal()" aria-label="Close dialog">&times;</button>
-            </header>
-            <div id="shiftError" class="error-message" role="alert" aria-live="polite"></div>
-            
-            <form id="shiftForm" onsubmit="event.preventDefault(); saveShift();" novalidate>
-                <div class="shift-form-group">
-                    <label for="shiftEmployee">Employee</label>
-                    <input type="text" id="shiftEmployee" readonly style="background: #f8f9fa;" aria-label="Selected employee">
-                </div>
-                
-                <div class="shift-form-group">
-                    <label for="shiftDay">Day</label>
-                    <input type="text" id="shiftDay" readonly style="background: #f8f9fa;" aria-label="Selected day">
-                </div>
-                
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-                    <div class="shift-form-group">
-                        <label for="shiftStartTime">Start Time: <span aria-hidden="true">*</span></label>
-                        <input type="time" id="shiftStartTime" required aria-describedby="shiftStartError">
-                        <div id="shiftStartError" class="error-message"></div>
-                    </div>
-                    <div class="shift-form-group">
-                        <label for="shiftEndTime">End Time: <span aria-hidden="true">*</span></label>
-                        <input type="time" id="shiftEndTime" required aria-describedby="shiftEndError">
-                        <div id="shiftEndError" class="error-message"></div>
-                    </div>
-                </div>
-                
-                <div class="shift-form-group">
-                    <label for="shiftRole">Role (Optional)</label>
-                    <input type="text" id="shiftRole" placeholder="e.g., Axe Coach, Team Leader" aria-describedby="shiftRoleHelp">
-                    <div id="shiftRoleHelp" class="sr-only">Enter specific role for this shift</div>
-                </div>
-                
-                <fieldset class="shift-form-group">
-                    <legend>Shift Type</legend>
-                    <div class="shift-type-buttons" role="radiogroup" aria-labelledby="shiftTypeLabel">
-                        <div class="shift-type-btn morning" data-type="morning" role="radio" tabindex="0" 
-                             onclick="selectShiftType('morning')" onkeypress="if(event.key==='Enter') selectShiftType('morning')" 
-                             aria-checked="false">Morning</div>
-                        <div class="shift-type-btn afternoon" data-type="afternoon" role="radio" tabindex="0" 
-                             onclick="selectShiftType('afternoon')" onkeypress="if(event.key==='Enter') selectShiftType('afternoon')" 
-                             aria-checked="false">Afternoon</div>
-                        <div class="shift-type-btn evening" data-type="evening" role="radio" tabindex="0" 
-                             onclick="selectShiftType('evening')" onkeypress="if(event.key==='Enter') selectShiftType('evening')" 
-                             aria-checked="false">Evening</div>
-                        <div class="shift-type-btn cover" data-type="cover" role="radio" tabindex="0" 
-                             onclick="selectShiftType('cover')" onkeypress="if(event.key==='Enter') selectShiftType('cover')" 
-                             aria-checked="false">Cover</div>
-                    </div>
-                </fieldset>
-                
-                <div style="display: flex; gap: 10px; margin-top: 20px;">
-                    <button type="submit" class="btn btn-primary" style="flex: 1;">Save Shift</button>
-                    <button type="button" class="btn btn-danger" onclick="deleteShift()" style="flex: 1;">Delete</button>
-                    <button type="button" class="btn btn-secondary" onclick="closeShiftModal()">Cancel</button>
-                </div>
-            </form>
-        </div>
-    </div>
+            <div class="roster-link">
+                <h3>📅 Weekly Roster</h3>
+                <p>Check your schedule and shifts for the week</p>
+                <button class="btn btn-secondary" onclick="openRoster()">
+                    View Roster
+                </button>
+            </div>
 
-    <!-- Hidden elements for screen readers -->
-    <div class="sr-only" aria-live="polite" id="statusAnnouncement"></div>
-    <div class="sr-only">
-        .sr-only {
-            position: absolute;
-            width: 1px;
-            height: 1px;
-            padding: 0;
-            margin: -1px;
-            overflow: hidden;
-            clip: rect(0, 0, 0, 0);
-            white-space: nowrap;
-            border: 0;
-        }
+            <button class="btn btn-secondary" onclick="logout()">End Session</button>
+        </div>
     </div>
 
     <script>
-        // Global Variables
-        let currentUser = null;
-        let userType = 'employee';
-        let isLoggedIn = false;
-        let clockedIn = false;
-        let clockInTime = null;
-        let currentShiftData = null;
-
-        // Employee Data
-        const employees = [
-            { id: 1, name: 'Jason Macdonald', email: 'Jason@kissmyaxe.com.au', rate: 45.00, status: 'active', title: 'Director', location: 'Alexandria, Blacktown, Brookvale', kioskCode: 5056 },
-            { id: 2, name: 'Elisha Macdonald', email: 'elisha@kissmyaxe.com.au', rate: 35.00, status: 'active', title: 'Manager', location: 'Alexandria, Blacktown, Brookvale', kioskCode: 586 },
-            { id: 3, name: 'Chris Gordon', email: 'chris@kissmyaxe.com.au', rate: 35.00, status: 'active', title: 'Manager', location: 'Alexandria, Blacktown, Brookvale', kioskCode: 4925 },
-            { id: 4, name: 'Louise Smart', email: 'louise.smart2812@gmail.com', rate: 25.00, status: 'active', title: 'Axe Coach', location: 'Alexandria', kioskCode: 6510 },
-            { id: 5, name: 'Jason Tyerman', email: 'jtyerman93@gmail.com', rate: 30.00, status: 'active', title: 'Team Leader', location: 'Alexandria, Brookvale, Blacktown', kioskCode: 9757 },
-            { id: 6, name: 'Jake Koschel', email: 'jake.koschel@gmail.com', rate: 35.00, status: 'active', title: 'Assistant Manager', location: 'Alexandria, Blacktown, Brookvale', kioskCode: 9317 },
-            { id: 7, name: 'Jasmine Morales', email: 'jasmine.morales2019@gmail.com', rate: 25.00, status: 'active', title: 'Axe Coach', location: 'Blacktown', kioskCode: 7361 },
-            { id: 8, name: 'William McNamara', email: 'wilrossmcnamara@gmail.com', rate: 25.00, status: 'active', title: 'Axe Coach', location: 'Brookvale', kioskCode: 7189 },
-            { id: 9, name: 'liliana Franco', email: 'lily.franco2000@gmail.com', rate: 25.00, status: 'active', title: 'Axe Coach', location: 'Alexandria', kioskCode: 7400 },
-            { id: 10, name: 'Ally Thomson', email: 'ally.thomson1899@gmail.com', rate: 30.00, status: 'active', title: 'Team Leader', location: 'Alexandria, Brookvale, Blacktown', kioskCode: 8857 },
-            { id: 11, name: 'Samuel Addison', email: 'Sam.addison@bigpond.com', rate: 25.00, status: 'active', title: 'Axe Coach', location: 'Alexandria', kioskCode: 2243 },
-            { id: 12, name: 'Jorja Moon', email: 'jorjamoon2000@gmail.com', rate: 25.00, status: 'active', title: 'axe coach', location: 'Blacktown', kioskCode: 2045 },
-            { id: 13, name: 'Jemmah Rattley', email: 'jemmahcolleen2001@gmail.com', rate: 25.00, status: 'active', title: 'Axe Coach', location: 'Alexandria, Brookvale, Blacktown', kioskCode: 358 },
-            { id: 14, name: 'Abigail Little', email: 'little.boof@icloud.com', rate: 25.00, status: 'active', title: 'Axe Coach', location: 'Brookvale', kioskCode: 3334 },
-            { id: 15, name: 'Kayla Jamie', email: 'kayla.jamie39@gmail.com', rate: 25.00, status: 'active', title: 'Axe Coach', location: 'Blacktown', kioskCode: 6958 },
-            { id: 16, name: 'Samuel Roche', email: 'samuelroche.sjr@gmail.com', rate: 25.00, status: 'active', title: 'Axe Coach', location: 'Blacktown', kioskCode: 354 },
-            { id: 17, name: 'Aadil Patel', email: 'aadil05p@gmail.com', rate: 30.00, status: 'active', title: 'Team Leader', location: 'Blacktown', kioskCode: 2531 },
-            { id: 18, name: 'Damon Da Silva', email: 'd.j.dasilva137@gmail.com', rate: 35.00, status: 'active', title: 'Assistant Manager', location: 'Alexandria, Brookvale, Blacktown', kioskCode: 6274 },
-            { id: 19, name: 'Neeka Mansouri', email: 'neekamansouri@gmail.com', rate: 25.00, status: 'active', title: 'Axe Coach', location: 'Blacktown', kioskCode: 6429 },
-            { id: 20, name: 'Evelin Lili Szalanczi', email: 'lilyszalanczi@gmail.com', rate: 25.00, status: 'active', title: 'Axe Coach', location: 'Alexandria, Brookvale, Blacktown', kioskCode: 7954 },
-            { id: 21, name: 'Harry Clark', email: 'harrydaviesclarky@gmail.com', rate: 25.00, status: 'active', title: 'Axe Coach', location: 'Alexandria', kioskCode: 8917 },
-            { id: 22, name: 'Catalina Irvin', email: 'irvincatalina419@gmail.com', rate: 25.00, status: 'active', title: 'Axe Coach', location: 'Brookvale', kioskCode: 6293 },
-            { id: 23, name: 'Danielle Major', email: 'danni.major@gmail.com', rate: 25.00, status: 'active', title: 'Axe Coach', location: 'Brookvale', kioskCode: 2582 },
-            { id: 24, name: 'Callum Slater', email: 'CallumSlaterActor@gmail.com', rate: 25.00, status: 'active', title: 'Axe Coach', location: 'Alexandria', kioskCode: 8639 },
-            { id: 25, name: 'Sunaina Mehroke', email: 'sunainamsm@gmail.com', rate: 25.00, status: 'active', title: 'Axe Coach', location: 'Alexandria, Brookvale', kioskCode: 9956 },
-            { id: 26, name: 'Johanna Brent', email: 'johanna.brentt@gmail.com', rate: 25.00, status: 'active', title: 'Axe Coach', location: 'Brookvale', kioskCode: 4100 },
-            { id: 27, name: 'Ben Osborne', email: 'ben.osborne040806@gmail.com', rate: 30.00, status: 'active', title: 'Team Leader', location: 'Alexandria, Brookvale, Blacktown', kioskCode: 401 },
-            { id: 28, name: 'Samuel Nichols', email: 'Sam.nichols05@gmail.com', rate: 30.00, status: 'active', title: 'Team Leader', location: 'Alexandria, Blacktown', kioskCode: 9123 },
-            { id: 29, name: 'Alexander Uliana', email: 'alex.uliana00@gmail.com', rate: 25.00, status: 'active', title: 'Axe Coach', location: 'Alexandria', kioskCode: 4737 },
-            { id: 30, name: 'April Neale', email: 'april.neale2@gmail.com', rate: 25.00, status: 'active', title: 'Axe Coach', location: 'Alexandria', kioskCode: 744 },
-            { id: 31, name: 'Rosie Phelan', email: 'harleybphelan@gmail.com', rate: 25.00, status: 'active', title: 'Axe Coach', location: 'Alexandria', kioskCode: 6722 },
-            { id: 32, name: 'Akira Darlington', email: 'darlingtonakira@gmail.com', rate: 25.00, status: 'active', title: 'Axe Coach', location: 'Alexandria', kioskCode: 8267 },
-            { id: 33, name: 'Madeleine Norris', email: 'madeleine_louise_norris@hotmail.com', rate: 25.00, status: 'active', title: 'Axe Coach', location: 'Brookvale', kioskCode: 1952 },
-            { id: 34, name: 'Lucy Clayton', email: 'clucy0522@gmail.com', rate: 25.00, status: 'active', title: 'Axe Coach', location: 'Brookvale', kioskCode: 2567 },
-            { id: 35, name: 'Fraser McCullough', email: 'fraser.mccullough@icloud.com', rate: 25.00, status: 'active', title: 'Axe Coach', location: 'Brookvale', kioskCode: 4336 },
-            { id: 36, name: 'Veronica Wade', email: 'veronicawade2006@gmail.com', rate: 25.00, status: 'active', title: 'Axe Coach', location: 'Brookvale', kioskCode: 8431 },
-            { id: 37, name: 'Harry Colhoun', email: 'harry.colhoun21@gmail.com', rate: 25.00, status: 'active', title: 'Axe Coach', location: 'Alexandria, Brookvale', kioskCode: 7585 },
-            { id: 38, name: 'Shantel Borg', email: 'shantel.borg@outlook.com.au', rate: 30.00, status: 'active', title: 'Team Leader', location: 'Blacktown', kioskCode: 8287 },
-            { id: 39, name: 'Luc Campbell', email: 'luchcampbell@gmail.com', rate: 25.00, status: 'active', title: 'Axe Coach', location: 'Brookvale', kioskCode: 4933 },
-            { id: 40, name: 'Manny Singh', email: 'manjit.singh6477@gmail.com', rate: 25.00, status: 'active', title: 'Axe Coach', location: 'Blacktown', kioskCode: 3894 },
-            { id: 41, name: 'Ella Browning', email: 'ellabrowning81@gmail.com', rate: 25.00, status: 'active', title: 'Axe Coach', location: 'Brookvale', kioskCode: 6383 }
+        // Staff Data - Kiss My Axe Team
+        const staff = [
+            { id: 1, name: 'Jason Macdonald', rate: 45.00, locations: ['Alexandria', 'Blacktown', 'Brookvale'], title: 'Director' },
+            { id: 2, name: 'Elisha Macdonald', rate: 35.00, locations: ['Alexandria', 'Blacktown', 'Brookvale'], title: 'Manager' },
+            { id: 3, name: 'Chris Gordon', rate: 35.00, locations: ['Alexandria', 'Blacktown', 'Brookvale'], title: 'Manager' },
+            { id: 4, name: 'Louise Smart', rate: 25.00, locations: ['Alexandria'], title: 'Axe Coach' },
+            { id: 5, name: 'Jason Tyerman', rate: 30.00, locations: ['Alexandria', 'Brookvale', 'Blacktown'], title: 'Team Leader' },
+            { id: 6, name: 'Jake Koschel', rate: 35.00, locations: ['Alexandria', 'Blacktown', 'Brookvale'], title: 'Assistant Manager' },
+            { id: 7, name: 'Jasmine Morales', rate: 25.00, locations: ['Blacktown'], title: 'Axe Coach' },
+            { id: 8, name: 'William McNamara', rate: 25.00, locations: ['Brookvale'], title: 'Axe Coach' },
+            { id: 9, name: 'Liliana Franco', rate: 25.00, locations: ['Alexandria'], title: 'Axe Coach' },
+            { id: 10, name: 'Ally Thomson', rate: 30.00, locations: ['Alexandria', 'Brookvale', 'Blacktown'], title: 'Team Leader' },
+            { id: 11, name: 'Samuel Addison', rate: 25.00, locations: ['Alexandria'], title: 'Axe Coach' },
+            { id: 12, name: 'Jorja Moon', rate: 25.00, locations: ['Blacktown'], title: 'Axe Coach' },
+            { id: 13, name: 'Jemmah Rattley', rate: 25.00, locations: ['Alexandria', 'Brookvale', 'Blacktown'], title: 'Axe Coach' },
+            { id: 14, name: 'Abigail Little', rate: 25.00, locations: ['Brookvale'], title: 'Axe Coach' },
+            { id: 15, name: 'Kayla Jamie', rate: 25.00, locations: ['Blacktown'], title: 'Axe Coach' },
+            { id: 16, name: 'Samuel Roche', rate: 25.00, locations: ['Blacktown'], title: 'Axe Coach' },
+            { id: 17, name: 'Aadil Patel', rate: 30.00, locations: ['Blacktown'], title: 'Team Leader' },
+            { id: 18, name: 'Damon Da Silva', rate: 35.00, locations: ['Alexandria', 'Brookvale', 'Blacktown'], title: 'Assistant Manager' },
+            { id: 19, name: 'Neeka Mansouri', rate: 25.00, locations: ['Blacktown'], title: 'Axe Coach' },
+            { id: 20, name: 'Evelin Lili Szalanczi', rate: 25.00, locations: ['Alexandria', 'Brookvale', 'Blacktown'], title: 'Axe Coach' },
+            { id: 21, name: 'Harry Clark', rate: 25.00, locations: ['Alexandria'], title: 'Axe Coach' },
+            { id: 22, name: 'Catalina Irvin', rate: 25.00, locations: ['Brookvale'], title: 'Axe Coach' },
+            { id: 23, name: 'Danielle Major', rate: 25.00, locations: ['Brookvale'], title: 'Axe Coach' },
+            { id: 24, name: 'Callum Slater', rate: 25.00, locations: ['Alexandria'], title: 'Axe Coach' },
+            { id: 25, name: 'Sunaina Mehroke', rate: 25.00, locations: ['Alexandria', 'Brookvale'], title: 'Axe Coach' },
+            { id: 26, name: 'Johanna Brent', rate: 25.00, locations: ['Brookvale'], title: 'Axe Coach' },
+            { id: 27, name: 'Ben Osborne', rate: 30.00, locations: ['Alexandria', 'Brookvale', 'Blacktown'], title: 'Team Leader' },
+            { id: 28, name: 'Samuel Nichols', rate: 30.00, locations: ['Alexandria', 'Blacktown'], title: 'Team Leader' },
+            { id: 29, name: 'Alexander Uliana', rate: 25.00, locations: ['Alexandria'], title: 'Axe Coach' },
+            { id: 30, name: 'April Neale', rate: 25.00, locations: ['Alexandria'], title: 'Axe Coach' },
+            { id: 31, name: 'Rosie Phelan', rate: 25.00, locations: ['Alexandria'], title: 'Axe Coach' },
+            { id: 32, name: 'Akira Darlington', rate: 25.00, locations: ['Alexandria'], title: 'Axe Coach' },
+            { id: 33, name: 'Madeleine Norris', rate: 25.00, locations: ['Brookvale'], title: 'Axe Coach' },
+            { id: 34, name: 'Lucy Clayton', rate: 25.00, locations: ['Brookvale'], title: 'Axe Coach' },
+            { id: 35, name: 'Fraser McCullough', rate: 25.00, locations: ['Brookvale'], title: 'Axe Coach' },
+            { id: 36, name: 'Veronica Wade', rate: 25.00, locations: ['Brookvale'], title: 'Axe Coach' },
+            { id: 37, name: 'Harry Colhoun', rate: 25.00, locations: ['Alexandria', 'Brookvale'], title: 'Axe Coach' },
+            { id: 38, name: 'Shantel Borg', rate: 30.00, locations: ['Blacktown'], title: 'Team Leader' },
+            { id: 39, name: 'Luc Campbell', rate: 25.00, locations: ['Brookvale'], title: 'Axe Coach' },
+            { id: 40, name: 'Manny Singh', rate: 25.00, locations: ['Blacktown'], title: 'Axe Coach' },
+            { id: 41, name: 'Ella Browning', rate: 25.00, locations: ['Brookvale'], title: 'Axe Coach' }
         ];
 
-        // Data storage
-        const timeRecords = {};
-        const schedules = {};
-        const locations = ['Alexandria', 'Brookvale', 'Blacktown'];
+        // App state
+        let currentStaff = null;
+        let clockedIn = false;
+        let clockInTime = null;
 
-        const rosterTemplates = {
-            standard: {
-                name: 'Standard Week',
-                description: 'Monday-Friday 9AM-5PM coverage',
-                schedule: {
-                    monday: { start: '09:00', end: '17:00', type: 'morning' },
-                    tuesday: { start: '09:00', end: '17:00', type: 'morning' },
-                    wednesday: { start: '09:00', end: '17:00', type: 'morning' },
-                    thursday: { start: '09:00', end: '17:00', type: 'morning' },
-                    friday: { start: '09:00', end: '17:00', type: 'morning' }
-                }
-            },
-            weekend: {
-                name: 'Weekend Rush',
-                description: 'Extra coverage for weekends',
-                schedule: {
-                    saturday: { start: '10:00', end: '22:00', type: 'afternoon' },
-                    sunday: { start: '10:00', end: '20:00', type: 'afternoon' }
-                }
-            },
-            holiday: {
-                name: 'Holiday Schedule',
-                description: 'Extended hours for holidays',
-                schedule: {
-                    monday: { start: '08:00', end: '22:00', type: 'morning' },
-                    tuesday: { start: '08:00', end: '22:00', type: 'morning' },
-                    wednesday: { start: '08:00', end: '22:00', type: 'morning' },
-                    thursday: { start: '08:00', end: '22:00', type: 'morning' },
-                    friday: { start: '08:00', end: '22:00', type: 'morning' },
-                    saturday: { start: '08:00', end: '22:00', type: 'evening' },
-                    sunday: { start: '08:00', end: '22:00', type: 'evening' }
-                }
-            }
-        };
-
-        // Utility functions
-        function showError(elementId, message) {
-            const errorElement = document.getElementById(elementId);
-            if (errorElement) {
-                errorElement.textContent = message;
-                errorElement.style.display = 'block';
-                errorElement.setAttribute('role', 'alert');
-            }
-        }
-
-        function hideError(elementId) {
-            const errorElement = document.getElementById(elementId);
-            if (errorElement) {
-                errorElement.style.display = 'none';
-                errorElement.removeAttribute('role');
-            }
-        }
-
-        function announceToScreenReader(message) {
-            const announcement = document.getElementById('statusAnnouncement');
-            if (announcement) {
-                announcement.textContent = message;
-                setTimeout(() => {
-                    announcement.textContent = '';
-                }, 1000);
-            }
-        }
-
-        function validateEmail(email) {
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            return emailRegex.test(email);
-        }
-
-        function formatCurrency(amount) {
-            return new Intl.NumberFormat('en-AU', {
-                style: 'currency',
-                currency: 'AUD'
-            }).format(amount);
-        }
-
-        // Initialize data
-        function initializeData() {
-            try {
-                employees.forEach(emp => {
-                    timeRecords[emp.id] = {
-                        daily: {},
-                        weekly: 0,
-                        clockedIn: false,
-                        clockInTime: null
-                    };
-                    
-                    schedules[emp.id] = {
-                        monday: null,
-                        tuesday: null,
-                        wednesday: null,
-                        thursday: null,
-                        friday: null,
-                        saturday: null,
-                        sunday: null
-                    };
-                });
-            } catch (error) {
-                console.error('Error initializing data:', error);
-                showError('loginError', 'System initialization failed. Please refresh the page.');
-            }
-        }
-
-        // Populate login dropdown
-        function populateLogin() {
-            try {
-                const select = document.getElementById('nameSelect');
-                if (!select) return;
-                
-                select.innerHTML = '<option value="">-- Select Your Name --</option>';
-                
-                employees.forEach(emp => {
-                    const option = document.createElement('option');
-                    option.value = emp.id;
-                    option.textContent = emp.name;
-                    select.appendChild(option);
-                });
-            } catch (error) {
-                console.error('Error populating login:', error);
-                showError('loginError', 'Failed to load employee list.');
-            }
-        }
-
-        // User type management with proper ARIA
-        function setUserType(type) {
-            try {
-                userType = type;
-                
-                // Update ARIA states
-                document.querySelectorAll('.user-type-btn').forEach(btn => {
-                    btn.setAttribute('aria-selected', 'false');
-                });
-                
-                if (type === 'employee') {
-                    document.getElementById('employeeBtn').setAttribute('aria-selected', 'true');
-                    document.getElementById('passwordGroup').style.display = 'none';
-                } else {
-                    document.getElementById('managerBtn').setAttribute('aria-selected', 'true');
-                    document.getElementById('passwordGroup').style.display = 'block';
-                }
-                
-                announceToScreenReader(`${type} login selected`);
-            } catch (error) {
-                console.error('Error setting user type:', error);
-            }
-        }
-
-        // Enhanced login with validation
-        function handleLogin(event) {
-            event.preventDefault();
-            
-            try {
-                // Clear previous errors
-                hideError('loginError');
-                hideError('nameError');
-                hideError('passwordError');
-                
-                const selectedId = document.getElementById('nameSelect').value;
-                const password = document.getElementById('managerPass').value;
-                
-                // Validation
-                if (!selectedId) {
-                    showError('nameError', 'Please select your name');
-                    document.getElementById('nameSelect').focus();
-                    return;
-                }
-                
-                if (userType === 'manager' && !password) {
-                    showError('passwordError', 'Manager password is required');
-                    document.getElementById('managerPass').focus();
-                    return;
-                }
-                
-                if (userType === 'manager' && password !== 'admin123') {
-                    showError('passwordError', 'Invalid manager password');
-                    document.getElementById('managerPass').focus();
-                    return;
-                }
-                
-                currentUser = employees.find(emp => emp.id == selectedId);
-                if (!currentUser) {
-                    showError('loginError', 'User not found. Please try again.');
-                    return;
-                }
-                
-                // Show loading state
-                const loginBtn = document.querySelector('.login-btn');
-                loginBtn.disabled = true;
-                loginBtn.classList.add('loading');
-                
-                // Simulate authentication delay
-                setTimeout(() => {
-                    completeLogin();
-                }, 500);
-                
-            } catch (error) {
-                console.error('Login error:', error);
-                showError('loginError', 'Login failed. Please try again.');
-            }
-        }
-
-        function completeLogin() {
-            try {
-                isLoggedIn = true;
-                
-                // Hide login container
-                const loginContainer = document.getElementById('loginContainer');
-                loginContainer.style.display = 'none';
-                loginContainer.setAttribute('aria-hidden', 'true');
-                
-                if (userType === 'manager') {
-                    const managerInterface = document.getElementById('managerInterface');
-                    managerInterface.style.display = 'block';
-                    managerInterface.setAttribute('aria-hidden', 'false');
-                    loadManagerDashboard();
-                    announceToScreenReader('Manager dashboard loaded');
-                } else {
-                    const employeeInterface = document.getElementById('employeeInterface');
-                    employeeInterface.style.display = 'block';
-                    employeeInterface.setAttribute('aria-hidden', 'false');
-                    loadEmployeeDashboard();
-                    announceToScreenReader('Employee dashboard loaded');
-                }
-                
-                // Focus management
-                const mainContent = document.getElementById('main-content');
-                if (mainContent) {
-                    mainContent.focus();
-                }
-                
-            } catch (error) {
-                console.error('Error completing login:', error);
-                showError('loginError', 'Failed to load dashboard. Please try again.');
-            }
-        }
-
-        // Enhanced logout
-        function logout() {
-            try {
-                isLoggedIn = false;
-                currentUser = null;
-                clockedIn = false;
-                clockInTime = null;
-                
-                // Hide all interfaces
-                document.getElementById('loginContainer').style.display = 'flex';
-                document.getElementById('loginContainer').setAttribute('aria-hidden', 'false');
-                document.getElementById('employeeInterface').style.display = 'none';
-                document.getElementById('employeeInterface').setAttribute('aria-hidden', 'true');
-                document.getElementById('managerInterface').style.display = 'none';
-                document.getElementById('managerInterface').setAttribute('aria-hidden', 'true');
-                
-                // Reset forms
-                document.getElementById('nameSelect').value = '';
-                document.getElementById('managerPass').value = '';
-                
-                // Clear any errors
-                hideError('loginError');
-                hideError('nameError');
-                hideError('passwordError');
-                
-                // Reset user type to employee
-                setUserType('employee');
-                
-                // Focus management
-                document.getElementById('nameSelect').focus();
-                
-                announceToScreenReader('Logged out successfully');
-                
-            } catch (error) {
-                console.error('Logout error:', error);
-            }
-        }
-
-        // Enhanced section navigation with ARIA
-        function showSection(userInterface, sectionName) {
-            try {
-                // Hide all sections and update ARIA
-                document.querySelectorAll('.section').forEach(section => {
-                    section.style.display = 'none';
-                    section.setAttribute('aria-hidden', 'true');
-                });
-                
-                // Update tab states
-                document.querySelectorAll('.nav-btn').forEach(btn => {
-                    btn.setAttribute('aria-selected', 'false');
-                });
-                
-                // Show selected section
-                const targetSection = document.getElementById(userInterface + '-' + sectionName);
-                if (targetSection) {
-                    targetSection.style.display = 'block';
-                    targetSection.setAttribute('aria-hidden', 'false');
-                }
-                
-                // Find and activate the clicked nav button
-                const activeTab = document.getElementById(sectionName + '-tab') || 
-                                 document.getElementById('manager-' + sectionName + '-tab');
-                if (activeTab) {
-                    activeTab.setAttribute('aria-selected', 'true');
-                }
-                
-                announceToScreenReader(`${sectionName} section loaded`);
-                
-            } catch (error) {
-                console.error('Error showing section:', error);
-            }
-        }
-
-        // Event listeners setup
-        document.addEventListener('DOMContentLoaded', function() {
-            try {
-                // Initialize the application
-                initializeData();
-                populateLogin();
-                updateClock();
-                setInterval(updateClock, 1000);
-                
-                // User type buttons
-                document.getElementById('employeeBtn').addEventListener('click', () => setUserType('employee'));
-                document.getElementById('managerBtn').addEventListener('click', () => setUserType('manager'));
-                
-                // Keyboard navigation for user type toggle
-                document.querySelectorAll('.user-type-btn').forEach(btn => {
-                    btn.addEventListener('keydown', function(e) {
-                        if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
-                            e.preventDefault();
-                            const buttons = Array.from(document.querySelectorAll('.user-type-btn'));
-                            const currentIndex = buttons.indexOf(this);
-                            const nextIndex = e.key === 'ArrowRight' ? 
-                                (currentIndex + 1) % buttons.length : 
-                                (currentIndex - 1 + buttons.length) % buttons.length;
-                            buttons[nextIndex].focus();
-                            buttons[nextIndex].click();
-                        }
-                    });
-                });
-                
-                // Form validation helpers
-                const nameSelect = document.getElementById('nameSelect');
-                if (nameSelect) {
-                    nameSelect.addEventListener('change', () => hideError('nameError'));
-                }
-                
-                const managerPass = document.getElementById('managerPass');
-                if (managerPass) {
-                    managerPass.addEventListener('input', () => hideError('passwordError'));
-                }
-                
-                // Modal accessibility
-                setupModalAccessibility();
-                
-            } catch (error) {
-                console.error('Initialization error:', error);
-                showError('loginError', 'System failed to initialize. Please refresh the page.');
-            }
-        });
-
-        function setupModalAccessibility() {
-            // Setup keyboard navigation for modals
-            document.addEventListener('keydown', function(e) {
-                if (e.key === 'Escape') {
-                    // Close any open modals
-                    document.querySelectorAll('.modal[aria-hidden="false"]').forEach(modal => {
-                        closeModal(modal.id);
-                    });
-                }
-            });
-            
-            // Trap focus in modals
-            document.querySelectorAll('.modal').forEach(modal => {
-                modal.addEventListener('keydown', function(e) {
-                    if (e.key === 'Tab') {
-                        trapFocus(e, this);
-                    }
-                });
-            });
-        }
-
-        function trapFocus(e, modal) {
-            const focusableElements = modal.querySelectorAll(
-                'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-            );
-            const firstFocusable = focusableElements[0];
-            const lastFocusable = focusableElements[focusableElements.length - 1];
-            
-            if (e.shiftKey) {
-                if (document.activeElement === firstFocusable) {
-                    e.preventDefault();
-                    lastFocusable.focus();
-                }
-            } else {
-                if (document.activeElement === lastFocusable) {
-                    e.preventDefault();
-                    firstFocusable.focus();
-                }
-            }
-        }
-
-        // Employee functions
-        function loadEmployeeDashboard() {
-            document.getElementById('employeeWelcome').textContent = `Welcome, ${currentUser.name}`;
-            updateEmployeeStatus();
-            loadEmployeeRoster();
-        }
-
-        function updateEmployeeStatus() {
-            const userRecord = timeRecords[currentUser.id];
-            
-            if (userRecord && userRecord.clockedIn) {
-                clockedIn = true;
-                clockInTime = new Date(userRecord.clockInTime);
-                document.getElementById('statusBadge').textContent = 'On Duty';
-                document.getElementById('statusBadge').className = 'text-success';
-                document.getElementById('clockInBtn').disabled = true;
-                document.getElementById('clockOutBtn').disabled = false;
-            } else {
-                clockedIn = false;
-                clockInTime = null;
-                document.getElementById('statusBadge').textContent = 'Off Duty';
-                document.getElementById('statusBadge').className = 'text-danger';
-                document.getElementById('clockInBtn').disabled = false;
-                document.getElementById('clockOutBtn').disabled = true;
-            }
-            
-            updateWorkHours();
-        }
-
-        function updateWorkHours() {
-            const userRecord = timeRecords[currentUser.id];
-            const today = new Date().toDateString();
-            
-            let todayHours = 0;
-            if (userRecord && userRecord.daily[today]) {
-                todayHours = userRecord.daily[today];
-            }
-            
-            if (clockedIn && clockInTime) {
-                const now = new Date();
-                const hoursWorked = (now - clockInTime) / (1000 * 60 * 60);
-                todayHours += hoursWorked;
-                document.getElementById('clockInTime').textContent = clockInTime.toLocaleTimeString();
-            } else {
-                document.getElementById('clockInTime').textContent = '--:--';
-            }
-            
-            document.getElementById('hoursToday').textContent = `${todayHours.toFixed(1)}h`;
-            document.getElementById('hoursWeekly').textContent = `${(userRecord?.weekly || 0).toFixed(1)}h`;
-            document.getElementById('estimatedPay').textContent = `$${(todayHours * currentUser.rate).toFixed(2)}`;
-        }
-
-        function clockIn() {
-            if (!clockedIn) {
-                clockedIn = true;
-                clockInTime = new Date();
-                
-                const userRecord = timeRecords[currentUser.id];
-                userRecord.clockedIn = true;
-                userRecord.clockInTime = clockInTime.toISOString();
-                
-                updateEmployeeStatus();
-                alert('Clocked in successfully!');
-            }
-        }
-
-        function clockOut() {
-            if (clockedIn && clockInTime) {
-                const now = new Date();
-                const hoursWorked = (now - clockInTime) / (1000 * 60 * 60);
-                const today = new Date().toDateString();
-                const userRecord = timeRecords[currentUser.id];
-                
-                if (!userRecord.daily[today]) {
-                    userRecord.daily[today] = 0;
-                }
-                userRecord.daily[today] += hoursWorked;
-                userRecord.weekly += hoursWorked;
-                userRecord.clockedIn = false;
-                userRecord.clockInTime = null;
-                
-                clockedIn = false;
-                clockInTime = null;
-                
-                updateEmployeeStatus();
-                alert(`Clocked out successfully! You worked ${hoursWorked.toFixed(2)} hours today.`);
-            }
-        }
-
-        function loadEmployeeRoster() {
-            const rosterGrid = document.getElementById('employeeRosterGrid');
-            const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-            
-            rosterGrid.innerHTML = '';
-            
-            days.forEach((day, index) => {
-                const dayDiv = document.createElement('div');
-                dayDiv.style.cssText = `
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
-                    padding: 15px;
-                    margin-bottom: 10px;
-                    background: #f8f9fa;
-                    border-radius: 10px;
-                    border-left: 4px solid #ddd;
-                `;
-                
-                const dayKey = day.toLowerCase();
-                const shift = schedules[currentUser.id][dayKey];
-                
-                dayDiv.innerHTML = `
-                    <div>
-                        <div style="font-weight: 600; color: #2c3e50;">${day}</div>
-                        <div style="font-size: 0.9em; color: #666;">${getDateForDay(index)}</div>
-                    </div>
-                    <div style="font-size: 1.1em; font-weight: 600; color: ${shift ? '#27ae60' : '#999'};">
-                        ${shift ? `${shift.start} - ${shift.end}` : 'No shift scheduled'}
-                    </div>
-                `;
-                
-                rosterGrid.appendChild(dayDiv);
-            });
-        }
-
-        function getDateForDay(dayIndex) {
-            const today = new Date();
-            const currentDay = today.getDay();
-            const diff = dayIndex - (currentDay === 0 ? 6 : currentDay - 1);
-            const targetDate = new Date(today.getTime() + diff * 24 * 60 * 60 * 1000);
-            return targetDate.getDate() + '/' + (targetDate.getMonth() + 1);
-        }
-
-        // Manager functions
-        function loadManagerDashboard() {
-            loadAttendanceTable();
-            loadRosterData();
-            loadLocationsTable();
-            loadStaffTable();
-            loadPayrollTable();
-            setDefaultWeek();
-        }
-
-        function setDefaultWeek() {
-            const today = new Date();
-            const monday = new Date(today.setDate(today.getDate() - today.getDay() + 1));
-            const weekSelect = document.getElementById('weekSelect');
-            if (weekSelect) {
-                weekSelect.value = monday.toISOString().split('T')[0];
-            }
-        }
-
-        function loadAttendanceTable() {
-            const table = document.getElementById('attendanceTable');
-            table.innerHTML = '';
-            
-            employees.forEach(emp => {
-                const userRecord = timeRecords[emp.id];
-                const today = new Date().toDateString();
-                const todayHours = userRecord?.daily[today] || 0;
-                const status = userRecord?.clockedIn ? 'Working' : 'Off Duty';
-                
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td><strong>${emp.name}</strong></td>
-                    <td>${emp.title}</td>
-                    <td>${emp.location}</td>
-                    <td><span class="text-${userRecord?.clockedIn ? 'success' : 'danger'}">${status}</span></td>
-                    <td>${todayHours.toFixed(1)}h</td>
-                    <td>
-                        <button class="btn btn-warning" onclick="forceClockOut(${emp.id})">Force Clock Out</button>
-                    </td>
-                `;
-                
-                table.appendChild(row);
-            });
-        }
-
-        function loadRosterData() {
-            const locationFilter = document.getElementById('locationSelect')?.value || '';
-            const table = document.getElementById('rosterTable');
-            if (!table) return;
-            
-            table.innerHTML = '';
-            
-            let filteredEmployees = employees;
-            if (locationFilter) {
-                filteredEmployees = employees.filter(emp => 
-                    emp.location && emp.location.toLowerCase().includes(locationFilter.toLowerCase())
-                );
-            }
-            
-            filteredEmployees.forEach(emp => {
-                const row = document.createElement('tr');
-                const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
-                
-                let rowHTML = `<td><strong>${emp.name}</strong><br><small>${emp.title}</small></td>`;
-                let totalHours = 0;
-                
-                days.forEach(day => {
-                    const shift = schedules[emp.id][day];
-                    if (shift) {
-                        const hours = calculateShiftHours(shift.start, shift.end);
-                        totalHours += hours;
-                        rowHTML += `<td class="shift-cell has-shift" onclick="editShift(${emp.id}, '${day}')">
-                            <div class="shift-time">${shift.start}-${shift.end}</div>
-                            <div class="shift-hours">${hours}h</div>
-                        </td>`;
-                    } else {
-                        rowHTML += `<td class="shift-cell" onclick="editShift(${emp.id}, '${day}')">
-                            <div style="color: #999;">Click to add</div>
-                        </td>`;
-                    }
-                });
-                
-                rowHTML += `<td><strong>${totalHours.toFixed(1)}h</strong></td>`;
-                row.innerHTML = rowHTML;
-                table.appendChild(row);
-            });
-        }
-
-  function openShiftModal(employeeId, day) {
-    const employee = employees.find(emp => emp.id === employeeId);
-    if (!employee) return;
-    
-    currentShiftData = { employeeId, day };
-    
-    // Populate modal
-    document.getElementById('shiftEmployee').value = employee.name;
-    document.getElementById('shiftDay').value = day.charAt(0).toUpperCase() + day.slice(1);
-    
-    const existingShift = schedules[employeeId][day];
-    if (existingShift) {
-        document.getElementById('shiftStartTime').value = existingShift.start;
-        document.getElementById('shiftEndTime').value = existingShift.end;
-        document.getElementById('shiftRole').value = existingShift.role || '';
-        selectShiftType(existingShift.type || 'morning');
-    } else {
-        // Clear form for new shift
-        document.getElementById('shiftStartTime').value = '';
-        document.getElementById('shiftEndTime').value = '';
-        document.getElementById('shiftRole').value = '';
-        selectShiftType('morning');
-    }
-    
-    document.getElementById('shiftModal').style.display = 'flex';
-}
-
-function selectShiftType(type) {
-    document.querySelectorAll('.shift-type-btn').forEach(btn => {
-        btn.classList.remove('active');
-        btn.setAttribute('aria-checked', 'false');
-    });
-    
-    const selectedBtn = document.querySelector(`.shift-type-btn[data-type="${type}"]`);
-    if (selectedBtn) {
-        selectedBtn.classList.add('active');
-        selectedBtn.setAttribute('aria-checked', 'true');
-    }
-}
-
-function saveShift() {
-    if (!currentShiftData) return;
-    
-    const startTime = document.getElementById('shiftStartTime').value;
-    const endTime = document.getElementById('shiftEndTime').value;
-    const role = document.getElementById('shiftRole').value;
-    const selectedType = document.querySelector('.shift-type-btn.active')?.dataset.type || 'morning';
-    
-    if (!startTime || !endTime) {
-        alert('Please enter both start and end times');
-        return;
-    }
-    
-    const { employeeId, day } = currentShiftData;
-    
-    schedules[employeeId][day] = {
-        start: startTime,
-        end: endTime,
-        role: role,
-        type: selectedType
-    };
-    
-    loadRosterGrid();
-    closeShiftModal();
-    alert('Shift saved successfully!');
-}
-
-function deleteShift() {
-    if (!currentShiftData) return;
-    
-    const { employeeId, day } = currentShiftData;
-    schedules[employeeId][day] = null;
-    
-    loadRosterGrid();
-    closeShiftModal();
-    alert('Shift deleted successfully!');
-}
-
-function closeShiftModal() {
-    document.getElementById('shiftModal').style.display = 'none';
-    currentShiftData = null;
-}
-
-        function autoSchedule() {
-            const confirmation = confirm('Auto-schedule all employees? This will create a basic schedule and clear any existing shifts.');
-            if (!confirmation) return;
-            
-            // Clear existing schedules
-            employees.forEach(emp => {
-                schedules[emp.id] = {
-                    monday: null,
-                    tuesday: null,
-                    wednesday: null,
-                    thursday: null,
-                    friday: null,
-                    saturday: null,
-                    sunday: null
-                };
-            });
-            
-            // Auto-assign basic schedule with shift types
-            const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday'];
-            const shifts = [
-                { start: '09:00', end: '17:00', type: 'morning' },
-                { start: '11:00', end: '19:00', type: 'afternoon' },
-                { start: '13:00', end: '21:00', type: 'evening' }
-            ];
-            
-            employees.forEach((emp, empIndex) => {
-                days.forEach((day, dayIndex) => {
-                    // Don't schedule everyone every day
-                    if ((empIndex + dayIndex) % 2 === 0) {
-                        const shiftIndex = empIndex % shifts.length;
-                        schedules[emp.id][day] = {
-                            ...shifts[shiftIndex],
-                            role: emp.title
-                        };
-                    }
-                });
-            });
-            
-            loadRosterGrid();
-            alert('Auto-schedule completed! Please review and adjust as needed.');
-        }
-
-        function applyTemplate(templateName) {
-            const template = rosterTemplates[templateName];
-            if (!template) return;
-            
-            const confirmation = confirm(`Apply "${template.name}" template? This will overwrite existing schedules.`);
-            if (!confirmation) return;
-            
-            employees.forEach(emp => {
-                Object.keys(template.schedule).forEach(day => {
-                    if (!schedules[emp.id]) {
-                        schedules[emp.id] = {};
-                    }
-                    schedules[emp.id][day] = {
-                        ...template.schedule[day],
-                        role: emp.title
-                    };
-                });
-            });
-            
-            loadRosterGrid();
-            closeModal('templateModal');
-            alert(`Template "${template.name}" applied successfully!`);
-        }
-
-        // Fix staff editing functionality
-        function editEmployee(employeeId) {
-            const employee = employees.find(emp => emp.id === employeeId);
-            if (!employee) return;
-            
-            // Pre-populate the staff modal with current data
-            document.getElementById('staffName').value = employee.name;
-            document.getElementById('staffEmail').value = employee.email;
-            document.getElementById('staffTitle').value = employee.title;
-            document.getElementById('staffRate').value = employee.rate;
-            document.getElementById('staffLocations').value = employee.location;
-            
-            // Store the employee ID for updating
-            document.getElementById('staffModal').dataset.editId = employeeId;
-            
-            // Show the modal
-            document.getElementById('staffModal').style.display = 'flex';
-        }
-
-        function saveStaff(event) {
-            event.preventDefault();
-            console.log('saveStaff called'); // Debug log
-            
-            const name = document.getElementById('staffName').value.trim();
-            const email = document.getElementById('staffEmail').value.trim();
-            const title = document.getElementById('staffTitle').value;
-            const rate = parseFloat(document.getElementById('staffRate').value);
-            const locations = document.getElementById('staffLocations').value.trim();
-            const modal = document.getElementById('staffModal');
-            const editId = modal.dataset.editId;
-            
-            console.log('Form data:', { name, email, title, rate, locations, editId }); // Debug log
-            
-            if (!name || !email || !rate) {
-                alert('Please fill in all required fields');
-                return;
-            }
-            
-            if (editId) {
-                // Update existing employee
-                console.log('Updating employee with ID:', editId);
-                const employee = employees.find(emp => emp.id == editId);
-                if (employee) {
-                    employee.name = name;
-                    employee.email = email;
-                    employee.title = title;
-                    employee.rate = rate;
-                    employee.location = locations;
-                    console.log('Employee updated:', employee);
-                    alert('Staff member updated successfully!');
-                } else {
-                    console.error('Employee not found for update:', editId);
-                    alert('Error: Employee not found');
-                    return;
-                }
-                delete modal.dataset.editId;
-            } else {
-                // Add new employee
-                console.log('Adding new employee');
-                const newId = Math.max(...employees.map(e => e.id)) + 1;
-                const newEmployee = {
-                    id: newId,
-                    name: name,
-                    email: email,
-                    rate: rate,
-                    status: 'active',
-                    title: title,
-                    location: locations,
-                    kioskCode: Math.floor(Math.random() * 9999)
-                };
-                
-                employees.push(newEmployee);
-                
-                // Initialize records for new employee
-                timeRecords[newId] = {
-                    daily: {},
-                    weekly: 0,
-                    clockedIn: false,
-                    clockInTime: null
-                };
-                
-                schedules[newId] = {
-                    monday: null,
-                    tuesday: null,
-                    wednesday: null,
-                    thursday: null,
-                    friday: null,
-                    saturday: null,
-                    sunday: null
-                };
-                
-                console.log('New employee added:', newEmployee);
-                alert('Staff member added successfully!');
-            }
-            
-            // Clear form and close modal
-            clearStaffForm();
-            closeModal('staffModal');
-            
-            // Refresh all relevant displays
-            populateLogin();
-            loadStaffTable();
-            loadAttendanceTable();
-            loadPayrollTable();
-            loadRosterGrid();
-        }
-
-        function clearStaffForm() {
-            document.getElementById('staffName').value = '';
-            document.getElementById('staffEmail').value = '';
-            document.getElementById('staffTitle').value = 'Axe Coach';
-            document.getElementById('staffRate').value = '';
-            document.getElementById('staffLocations').value = '';
-        }
-
-        function showStaffModal() {
-            console.log('showStaffModal called'); // Debug log
-            // Clear any previous edit data
-            const modal = document.getElementById('staffModal');
-            delete modal.dataset.editId;
-            
-            // Reset form to defaults for new staff
-            clearStaffForm();
-            document.getElementById('staffRate').value = '25'; // Set default rate
-            
-            modal.style.display = 'flex';
-            console.log('Staff modal should be visible'); // Debug log
-        }
-
-        function closeModal(modalId) {
-            console.log('closeModal called for:', modalId); // Debug log
-            const modal = document.getElementById(modalId);
-            modal.style.display = 'none';
-            
-            // Clear edit ID when closing staff modal
-            if (modalId === 'staffModal') {
-                delete modal.dataset.editId;
-                clearStaffForm();
-            }
-        }
-
-        function showTemplateModal() {
-            document.getElementById('templateModal').style.display = 'flex';
-        }
-
-        function applyTemplate(templateName) {
-            const template = rosterTemplates[templateName];
-            if (!template) return;
-            
-            const confirmation = confirm(`Apply "${template.name}" template? This will overwrite existing schedules.`);
-            if (!confirmation) return;
-            
-            employees.forEach(emp => {
-                Object.keys(template.schedule).forEach(day => {
-                    schedules[emp.id][day] = template.schedule[day];
-                });
-            });
-            
-            loadRosterData();
-            closeModal('templateModal');
-            alert(`Template "${template.name}" applied successfully!`);
-        }
-
-        function publishRoster() {
-            const confirmation = confirm('Publish roster? All employees will be notified of their schedules.');
-            if (confirmation) {
-                alert('Roster published successfully! All employees have been notified.');
-            }
-        }
-
-        function loadLocationsTable() {
-            const table = document.getElementById('locationsTable');
-            if (!table) return;
-            
-            table.innerHTML = '';
-            
-            locations.forEach((location, index) => {
-                const staffCount = employees.filter(emp => 
-                    emp.location && emp.location.toLowerCase().includes(location.toLowerCase())
-                ).length;
-                
-                const managers = employees.filter(emp => 
-                    emp.location && emp.location.toLowerCase().includes(location.toLowerCase()) &&
-                    (emp.title.toLowerCase().includes('manager') || emp.title.toLowerCase().includes('director'))
-                );
-                
-                const managerName = managers.length > 0 ? managers[0].name : 'No manager assigned';
-                
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td><strong>${location}</strong></td>
-                    <td>${managerName}</td>
-                    <td>${staffCount} employees</td>
-                    <td><span class="text-success">Active</span></td>
-                    <td>
-                        <button class="btn btn-primary" onclick="editLocation('${location}')">Edit</button>
-                    </td>
-                `;
-                table.appendChild(row);
-            });
-        }
-
-        function loadStaffTable() {
-            const table = document.getElementById('staffTable');
-            if (!table) return;
-            
-            table.innerHTML = '';
-            
-            employees.forEach(emp => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td><strong>${emp.name}</strong></td>
-                    <td>${emp.email}</td>
-                    <td>${emp.title}</td>
-                    <td>${emp.rate.toFixed(2)}</td>
-                    <td>${emp.location}</td>
-                    <td>
-                        <button class="btn btn-primary" onclick="editEmployee(${emp.id})">Edit</button>
-                        <button class="btn btn-danger" onclick="deleteEmployee(${emp.id})">Delete</button>
-                    </td>
-                `;
-                table.appendChild(row);
-            });
-        }
-
-        // Fix staff editing functionality
-        function editEmployee(employeeId) {
-            console.log('Editing employee:', employeeId); // Debug log
-            const employee = employees.find(emp => emp.id === employeeId);
-            if (!employee) {
-                console.error('Employee not found:', employeeId);
-                return;
-            }
-            
-            // Pre-populate the staff modal with current data
-            document.getElementById('staffName').value = employee.name;
-            document.getElementById('staffEmail').value = employee.email;
-            document.getElementById('staffTitle').value = employee.title;
-            document.getElementById('staffRate').value = employee.rate;
-            document.getElementById('staffLocations').value = employee.location || '';
-            
-            // Store the employee ID for updating
-            const modal = document.getElementById('staffModal');
-            modal.dataset.editId = employeeId;
-            
-            // Show the modal
-            modal.style.display = 'flex';
-            console.log('Modal should be visible now'); // Debug log
-        }
-
-        function deleteEmployee(employeeId) {
-            if (confirm('Are you sure you want to delete this employee?')) {
-                const index = employees.findIndex(emp => emp.id === employeeId);
-                if (index > -1) {
-                    employees.splice(index, 1);
-                    delete timeRecords[employeeId];
-                    delete schedules[employeeId];
-                    
-                    populateLogin();
-                    loadStaffTable();
-                    loadAttendanceTable();
-                    loadPayrollTable();
-                    loadRosterGrid();
-                    alert('Employee deleted successfully!');
-                }
-            }
-        }
-
-        function loadPayrollTable() {
-            const table = document.getElementById('payrollTable');
-            table.innerHTML = '';
-            
-            employees.forEach(emp => {
-                const userRecord = timeRecords[emp.id];
-                const weeklyHours = userRecord?.weekly || 0;
-                const grossPay = weeklyHours * emp.rate;
-                
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td><strong>${emp.name}</strong></td>
-                    <td>${weeklyHours.toFixed(1)}h</td>
-                    <td>$${emp.rate.toFixed(2)}</td>
-                    <td>$${grossPay.toFixed(2)}</td>
-                    <td>
-                        <button class="btn btn-success" onclick="processPayroll(${emp.id})">Process</button>
-                    </td>
-                `;
-                table.appendChild(row);
-            });
-        }
-
-        // Modal functions
-        function showStaffModal() {
-            // Clear any previous edit data
-            delete document.getElementById('staffModal').dataset.editId;
-            
-            // Reset form to defaults for new staff
-            document.getElementById('staffName').value = '';
-            document.getElementById('staffEmail').value = '';
-            document.getElementById('staffTitle').value = 'Axe Coach';
-            document.getElementById('staffRate').value = '25';
-            document.getElementById('staffLocations').value = '';
-            
-            document.getElementById('staffModal').style.display = 'flex';
-        }
-
-        function showLocationModal() {
-            document.getElementById('locationModal').style.display = 'flex';
-        }
-
-        function calculateShiftHours(startTime, endTime) {
-            const start = new Date(`2000-01-01 ${startTime}`);
-            const end = new Date(`2000-01-01 ${endTime}`);
-            return (end - start) / (1000 * 60 * 60);
-        }
-
-        function closeModal(modalId) {
-            document.getElementById(modalId).style.display = 'none';
-            
-            // Clear edit ID when closing staff modal
-            if (modalId === 'staffModal') {
-                delete document.getElementById('staffModal').dataset.editId;
-                // Clear form
-                document.getElementById('staffName').value = '';
-                document.getElementById('staffEmail').value = '';
-                document.getElementById('staffTitle').value = 'Axe Coach';
-                document.getElementById('staffRate').value = '';
-                document.getElementById('staffLocations').value = '';
-            }
-        }
-
-        function saveLocation(event) {
-            event.preventDefault();
-            
-            const name = document.getElementById('locationName').value;
-            const manager = document.getElementById('locationManager').value;
-            
-            locations.push(name);
-            loadLocationsTable();
-            closeModal('locationModal');
-            alert('Location added successfully!');
-        }
-
-        function editEmployee(employeeId) {
-            const employee = employees.find(emp => emp.id === employeeId);
-            if (employee) {
-                const newRate = prompt(`Edit hourly rate for ${employee.name}:`, employee.rate);
-                if (newRate && !isNaN(newRate)) {
-                    employee.rate = parseFloat(newRate);
-                    loadStaffTable();
-                    loadPayrollTable();
-                    alert('Employee rate updated successfully!');
-                }
-            }
-        }
-
-        function deleteEmployee(employeeId) {
-            if (confirm('Are you sure you want to delete this employee?')) {
-                const index = employees.findIndex(emp => emp.id === employeeId);
-                if (index > -1) {
-                    employees.splice(index, 1);
-                    delete timeRecords[employeeId];
-                    delete schedules[employeeId];
-                    
-                    populateLogin();
-                    loadStaffTable();
-                    loadAttendanceTable();
-                    loadPayrollTable();
-                    alert('Employee deleted successfully!');
-                }
-            }
-        }
-
-        function forceClockOut(employeeId) {
-            const userRecord = timeRecords[employeeId];
-            if (userRecord && userRecord.clockedIn) {
-                const clockInTime = new Date(userRecord.clockInTime);
-                const now = new Date();
-                const hoursWorked = (now - clockInTime) / (1000 * 60 * 60);
-                const today = new Date().toDateString();
-                
-                if (!userRecord.daily[today]) {
-                    userRecord.daily[today] = 0;
-                }
-                userRecord.daily[today] += hoursWorked;
-                userRecord.weekly += hoursWorked;
-                userRecord.clockedIn = false;
-                userRecord.clockInTime = null;
-                
-                loadAttendanceTable();
-                alert('Employee clocked out successfully!');
-            }
-        }
-
-        function processPayroll(employeeId) {
-            const employee = employees.find(emp => emp.id === employeeId);
-            const userRecord = timeRecords[employeeId];
-            
-            if (employee && userRecord) {
-                const weeklyHours = userRecord.weekly || 0;
-                const grossPay = weeklyHours * employee.rate;
-                
-                userRecord.weekly = 0;
-                
-                loadPayrollTable();
-                alert(`Payroll processed for ${employee.name}: $${grossPay.toFixed(2)} for ${weeklyHours.toFixed(1)} hours`);
-            }
-        }
-
-        function generateReport() {
-            let totalPay = 0;
-            let totalHours = 0;
-            
-            employees.forEach(emp => {
-                const userRecord = timeRecords[emp.id];
-                const weeklyHours = userRecord?.weekly || 0;
-                const grossPay = weeklyHours * emp.rate;
-                
-                totalHours += weeklyHours;
-                totalPay += grossPay;
-            });
-            
-            alert(`Payroll Report Generated:\nTotal Hours: ${totalHours.toFixed(1)}\nTotal Payroll: $${totalPay.toFixed(2)}`);
-        }
-
-        function createTemplate() {
-            const name = prompt('Enter template name:');
-            if (!name) return;
-            
-            const description = prompt('Enter template description:');
-            if (!description) return;
-            
-            alert(`Template "${name}" would be created with current roster data.`);
-        }
-
-        function editLocation(locationName) {
-            const newManager = prompt(`Edit manager for ${locationName}:`);
-            if (newManager) {
-                alert(`Manager for ${locationName} updated to ${newManager}`);
-                loadLocationsTable();
-            }
-        }
-
-        // Update clock display
-        function updateClock() {
-            const now = new Date();
-            const timeString = now.toLocaleTimeString();
-            const dateString = now.toLocaleDateString();
-            
-            const clockDisplay = document.getElementById('clockDisplay');
-            const currentTime = document.getElementById('currentTime');
-            const managerTime = document.getElementById('managerTime');
-            
-            if (clockDisplay) {
-                clockDisplay.textContent = timeString;
-            }
-            
-            if (currentTime) {
-                currentTime.textContent = `${dateString} ${timeString}`;
-            }
-            
-            if (managerTime) {
-                managerTime.textContent = `${dateString} ${timeString}`;
-            }
-            
-            // Update work hours if clocked in
-            if (clockedIn && clockInTime && currentUser) {
-                updateWorkHours();
-            }
-        }
-
-        // Initialize the application
-        function initialize() {
-            initializeData();
-            populateLogin();
+        // Initialize app
+        function init() {
+            populateStaffSelect();
             updateClock();
             setInterval(updateClock, 1000);
         }
 
-        // Start the application when page loads
-        document.addEventListener('DOMContentLoaded', initialize);
+        // Populate staff dropdown
+        function populateStaffSelect() {
+            const select = document.getElementById('staffSelect');
+            staff.forEach(person => {
+                const option = document.createElement('option');
+                option.value = person.id;
+                option.textContent = person.name;
+                select.appendChild(option);
+            });
+        }
+
+        // Update clock
+        function updateClock() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('en-AU', { 
+                hour12: false,
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
+            });
+            document.getElementById('currentTime').textContent = timeString;
+            
+            // Update work hours if clocked in
+            if (clockedIn && clockInTime && currentStaff) {
+                updateWorkHours();
+            }
+        }
+
+        // Login
+        function login() {
+            const staffId = document.getElementById('staffSelect').value;
+            if (!staffId) {
+                alert('Please select your name from the list');
+                return;
+            }
+
+            currentStaff = staff.find(s => s.id == staffId);
+            
+            // Show welcome message
+            document.getElementById('welcomeMessage').textContent = 
+                `Welcome back, ${currentStaff.name}! (${currentStaff.title})`;
+            
+            // Show locations
+            document.getElementById('locationInfo').innerHTML = `
+                <h4>Your Locations</h4>
+                <p>${currentStaff.locations.join(', ')}</p>
+            `;
+            
+            // Show hourly rate
+            document.getElementById('hourlyRate').textContent = `$${currentStaff.rate.toFixed(2)}`;
+            
+            // Switch to clock section
+            document.getElementById('loginSection').style.display = 'none';
+            document.getElementById('clockSection').style.display = 'block';
+            
+            updateClockDisplay();
+        }
+
+        // Logout
+        function logout() {
+            currentStaff = null;
+            clockedIn = false;
+            clockInTime = null;
+            
+            // Reset form
+            document.getElementById('staffSelect').value = '';
+            
+            // Switch back to login
+            document.getElementById('loginSection').style.display = 'block';
+            document.getElementById('clockSection').style.display = 'none';
+        }
+
+        // Clock in
+        function clockIn() {
+            if (!clockedIn) {
+                clockedIn = true;
+                clockInTime = new Date();
+                updateClockDisplay();
+                
+                // Show success message
+                const sound = new Audio('data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmMSFjmJ2+zOfy8GHHbE7+OOQAYRE2S37edgOA==');
+                sound.play().catch(() => {}); // Play sound if possible
+                
+                alert(`Clocked in at ${clockInTime.toLocaleTimeString()}!`);
+            }
+        }
+
+        // Clock out
+        function clockOut() {
+            if (clockedIn && clockInTime) {
+                const now = new Date();
+                const hoursWorked = (now - clockInTime) / (1000 * 60 * 60);
+                const pay = hoursWorked * currentStaff.rate;
+                
+                clockedIn = false;
+                clockInTime = null;
+                updateClockDisplay();
+                
+                alert(`Clocked out at ${now.toLocaleTimeString()}!\n\nYou worked: ${hoursWorked.toFixed(2)} hours\nEarnings: $${pay.toFixed(2)}`);
+            }
+        }
+
+        // Update clock display
+        function updateClockDisplay() {
+            const statusElement = document.getElementById('workStatus');
+            const clockInBtn = document.getElementById('clockInBtn');
+            const clockOutBtn = document.getElementById('clockOutBtn');
+            
+            if (clockedIn) {
+                statusElement.textContent = '✅ Currently Working';
+                statusElement.className = 'status working';
+                clockInBtn.disabled = true;
+                clockOutBtn.disabled = false;
+                
+                // Show clock in time
+                document.getElementById('clockInTime').textContent = 
+                    clockInTime.toLocaleTimeString('en-AU', { hour12: false, hour: '2-digit', minute: '2-digit' });
+            } else {
+                statusElement.textContent = '🔴 Not Currently Working';
+                statusElement.className = 'status off';
+                clockInBtn.disabled = false;
+                clockOutBtn.disabled = true;
+                
+                // Reset displays
+                document.getElementById('clockInTime').textContent = '--:--';
+                document.getElementById('hoursToday').textContent = '0.0h';
+                document.getElementById('todaysPay').textContent = '$0.00';
+            }
+        }
+
+        // Update work hours
+        function updateWorkHours() {
+            if (clockedIn && clockInTime && currentStaff) {
+                const now = new Date();
+                const hoursWorked = (now - clockInTime) / (1000 * 60 * 60);
+                const pay = hoursWorked * currentStaff.rate;
+                
+                document.getElementById('hoursToday').textContent = `${hoursWorked.toFixed(1)}h`;
+                document.getElementById('todaysPay').textContent = `$${pay.toFixed(2)}`;
+            }
+        }
+
+        // Open roster (link to Google Sheets)
+        function openRoster() {
+            // You can replace this URL with your actual Google Sheets roster
+            const rosterUrl = 'https://docs.google.com/spreadsheets/d/YOUR_SHEET_ID/edit';
+            
+            // For now, show a message about setting up the roster
+            if (confirm('This will open your roster in Google Sheets.\n\nWould you like to continue?')) {
+                // You can replace this with your actual Google Sheets URL
+                alert('Set up your roster Google Sheet and replace the URL in the code!\n\nFor now, you can create a new Google Sheet with columns:\n- Staff Name\n- Monday\n- Tuesday\n- Wednesday\n- Thursday\n- Friday\n- Saturday\n- Sunday');
+                
+                // Uncomment this line when you have your Google Sheets URL:
+                // window.open(rosterUrl, '_blank');
+            }
+        }
+
+        // Start the app
+        document.addEventListener('DOMContentLoaded', init);
     </script>
 </body>
 </html>
